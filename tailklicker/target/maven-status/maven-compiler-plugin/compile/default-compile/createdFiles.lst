@@ -1,0 +1,6 @@
+com\costr\tailklicker\TailklickerApplication.class
+com\costr\tailklicker\GUI\Kachel.class
+com\costr\tailklicker\Logik\InvertedClick.class
+com\costr\tailklicker\GUI\SwingGUI.class
+com\costr\tailklicker\Logik\Winning.class
+com\costr\tailklicker\Logik\MyActionListener.class

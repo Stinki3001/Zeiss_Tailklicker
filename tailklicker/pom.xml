@@ -10,7 +10,8 @@
 	</parent>
 	<groupId>com.costr</groupId>
 	<artifactId>tailklicker</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<!-- Version -->
+	<version>1.0.1-SNAPSHOT</version>
 	<name>tailklicker</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
