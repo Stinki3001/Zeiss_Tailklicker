@@ -21,6 +21,10 @@ public class MyActionListener implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         invert(kachel);
+        if (Winning.checkWinCondition(kachelGroup)) {
+            System.err.println("You win!");
+            Winning.createWinningMessage();
+        }
         
         
     }

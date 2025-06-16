@@ -7,7 +7,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import com.costr.tailklicker.GUI.SwingGUI;
-
+/**
+ * Tailklicker Application
+ * @author Costr
+ */
 @SpringBootApplication
 public class TailklickerApplication {
 
