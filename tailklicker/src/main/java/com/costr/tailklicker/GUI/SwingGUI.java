@@ -44,13 +44,15 @@ public class SwingGUI {
         }
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
+                System.err.println("Setting neighbours for button " + (i + 1));
+                kachelGroup[i][j].setNeighbours(kachelGroup, kachelGroup[i][j]);
                 System.err.println("Adding action listener to button " + (i + 1));
                 kachelGroup[i][j].getButton().addActionListener(new MyActionListener(kachelGroup, kachelGroup[i][j]));
                 System.err.println("Action listener added to button " + (i + 1) + " successfully.");
                 
             }
         }
-
+        System.err.println("Finished setting up grid layout.");
         frame.add(gridPanel);
         frame.revalidate();
 

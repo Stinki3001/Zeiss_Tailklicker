@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 
 public class Kachel {
-    private int x;
-    private int y;
+
+    private final int x;
+    private final int y;
     private boolean isClicked;
     public boolean isInverted;
     private JButton button;
     // public static Kachel[][] kachelGroup;
-    public ArrayList<Kachel> neighbours;
+    private ArrayList<Kachel> neighbours;
 
     public Kachel(int x, int y) {
         this.x = x;
@@ -19,7 +20,7 @@ public class Kachel {
         this.isClicked = false;
         this.isInverted = false;
         this.button = new JButton("Button " + (x) + "," + (y));
-        
+
     }
 
     public JButton getButton() {
@@ -33,18 +34,40 @@ public class Kachel {
     public int getX() {
         return x;
     }
-    
-    public void getNeighbour(Kachel[][] kachelGroup, Kachel kachel) {
+
+    public void setNeighbours(Kachel[][] kachelGroup, Kachel kachel) {
         neighbours = new ArrayList<>();
-        if (kachel.getY() > 3 || kachel.getX() > 3 || kachel.getY() < 0 || kachel.getX() < 0) {
+        if (istInFeld(kachel.getX(), kachel.getY())) {
+            if (istInFeld(kachel.getX() - 1, kachel.getY())) {
+                neighbours.add(kachelGroup[kachel.getX() - 1][kachel.getY()]); // left
+            }
+            if (istInFeld(kachel.getX() + 1, kachel.getY())) {
+                neighbours.add(kachelGroup[kachel.getX() + 1][kachel.getY()]); // right
+            }
+            if (istInFeld(kachel.getX(), kachel.getY() - 1)) {
+                            neighbours.add(kachelGroup[kachel.getX()][kachel.getY() - 1]); // up
+            }
+            if (istInFeld(kachel.getX(), kachel.getY() + 1)) {
+                neighbours.add(kachelGroup[kachel.getX()][kachel.getY() + 1]); // down
+            }
+        } else {
             System.err.println("Kachel is out of bounds");
             return;
-        } else {
-            neighbours.add(kachelGroup[kachel.getX() - 1][kachel.getY()]); // left
-            neighbours.add(kachelGroup[kachel.getX() + 1][kachel.getY()]); // right
-            neighbours.add(kachelGroup[kachel.getX()][kachel.getY() - 1]); // up
-            neighbours.add(kachelGroup[kachel.getX()][kachel.getY() + 1]); // down
         }
 
+    }
+
+    public ArrayList<Kachel> getNeighbours() {
+        return neighbours;
+    }
+
+    public boolean istInFeld(int x, int y) {
+        if (y < 3 & x < 3 & y >= 0 & x >= 0) {
+            return true;
+        } else {
+
+            System.err.println("Kachel is out of bounds");
+            return false;
+        }
     }
 }
