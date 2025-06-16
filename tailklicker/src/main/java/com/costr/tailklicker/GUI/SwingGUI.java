@@ -8,8 +8,12 @@ import com.costr.tailklicker.Logik.MyActionListener;
 public class SwingGUI {
 
     JFrame frame;
+    private static int rows;
+    private static int cols;
 
     public void init(int rows, int cols) {
+        SwingGUI.rows = rows;
+        SwingGUI.cols = cols;
         System.out.println("Initializing Swing GUI...");
         newFrame();
         setGrid(rows, cols);
@@ -49,12 +53,28 @@ public class SwingGUI {
                 System.err.println("Adding action listener to button " + (i + 1));
                 kachelGroup[i][j].getButton().addActionListener(new MyActionListener(kachelGroup, kachelGroup[i][j]));
                 System.err.println("Action listener added to button " + (i + 1) + " successfully.");
-                
+
             }
         }
         System.err.println("Finished setting up grid layout.");
         frame.add(gridPanel);
         frame.revalidate();
 
+    }
+
+    public static int getRows() {
+        return rows;
+    }
+
+    public static int getCols() {
+        return cols;
+    }
+
+    public static void setCols(int cols) {
+        SwingGUI.cols = cols;
+    }
+
+    public static void setRows(int rows) {
+        SwingGUI.rows = rows;
     }
 }
