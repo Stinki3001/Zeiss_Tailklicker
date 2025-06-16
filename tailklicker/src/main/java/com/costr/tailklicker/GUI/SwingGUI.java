@@ -7,20 +7,26 @@ import com.costr.tailklicker.Logik.MyActionListener;
 
 public class SwingGUI {
 
-    JFrame frame;
+    static JFrame frame;
     private static int rows;
     private static int cols;
 
     public void init(int rows, int cols) {
         SwingGUI.rows = rows;
         SwingGUI.cols = cols;
-        System.out.println("Initializing Swing GUI...");
+        System.err.println("Initializing Swing GUI...");
         newFrame();
         setGrid(rows, cols);
 
     }
 
     private void newFrame() {
+        if (frame != null) {
+            System.err.println("Frame already exists, disposing of the old frame.");
+            frame.dispose();
+        } else {
+            System.err.println("Creating a new frame.");
+        }
         frame = new JFrame("Tailklicker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new java.awt.Dimension(800, 600));

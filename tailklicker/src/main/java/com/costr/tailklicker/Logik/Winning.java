@@ -14,6 +14,8 @@ import com.costr.tailklicker.GUI.Kachel;
  */
 public class Winning {
 
+    static JFrame winFrame;
+
     public static boolean checkWinCondition(Kachel[][] kachelGroup) {
         for (Kachel[] row : kachelGroup) {
             for (Kachel kachel : row) {
@@ -26,7 +28,7 @@ public class Winning {
     }
 
     public static JFrame createWinningMessage() {
-        JFrame winFrame = new JFrame("You Win!");
+        winFrame = new JFrame("You Win!");
         winFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         winFrame.setPreferredSize(new Dimension(300, 300));
         winFrame.setResizable(true);
