@@ -8,16 +8,13 @@ public class Kachel {
 
     private final int x;
     private final int y;
-    private boolean isClicked;
     public boolean isInverted;
-    private JButton button;
-    // public static Kachel[][] kachelGroup;
+    private final JButton button;
     private ArrayList<Kachel> neighbours;
 
     public Kachel(int x, int y) {
         this.x = x;
         this.y = y;
-        this.isClicked = false;
         this.isInverted = false;
         this.button = new JButton("Button " + (x) + "," + (y));
 
