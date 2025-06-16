@@ -1,10 +1,10 @@
 package com.costr.tailklicker.Logik;
 
 import java.awt.Dimension;
-import java.awt.TextField;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.costr.tailklicker.GUI.Kachel;
@@ -39,9 +39,9 @@ public class Winning {
         restartButton.addActionListener(new WinningActionListener());
         winnMessagePanel.add(restartButton);
 
-        TextField winMessage = new TextField("Congratulations! You have won the game!");
+        JLabel winMessage = new JLabel("Congratulations! You have won the game!");
         winMessage.setPreferredSize(new Dimension(250, 250));
-        winMessage.setEditable(false);
+        // winMessage.setEditable(false);
         winnMessagePanel.add(winMessage);
 
         winFrame.add(winnMessagePanel);
