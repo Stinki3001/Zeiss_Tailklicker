@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
-import com.costr.tailklicker.Logik.MyActionListener;
+import com.costr.tailklicker.Logik.KachelListener;
 import com.costr.tailklicker.Logik.Schwierigkeit;
 import com.costr.tailklicker.Logik.SchwierigkeitenListener;
 
@@ -68,7 +68,7 @@ public class SwingGUI {
                 System.err.println("Setting neighbours for button " + (i + 1));
                 kachelGroup[i][j].setNeighbours(kachelGroup, kachelGroup[i][j]);
                 System.err.println("Adding action listener to button " + (i + 1));
-                kachelGroup[i][j].getButton().addActionListener(new MyActionListener(kachelGroup, kachelGroup[i][j]));
+                kachelGroup[i][j].getButton().addActionListener(new KachelListener(kachelGroup, kachelGroup[i][j]));
                 System.err.println("Action listener added to button " + (i + 1) + " successfully.");
 
             }
