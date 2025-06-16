@@ -1,15 +1,24 @@
 package com.costr.tailklicker.GUI;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
 import com.costr.tailklicker.Logik.MyActionListener;
+import com.costr.tailklicker.Logik.Schwierigkeit;
+import com.costr.tailklicker.Logik.SchwierigkeitenListener;
 
 public class SwingGUI {
 
     static JFrame frame;
     private static int rows;
     private static int cols;
+    private static JComboBox<Schwierigkeit> schwierigkeitenMenu;
+
+    public static Schwierigkeit getSelectedDifficulty() {
+        return (Schwierigkeit) schwierigkeitenMenu.getSelectedItem();
+    }
 
     public void init(int rows, int cols) {
         SwingGUI.rows = rows;
@@ -17,6 +26,7 @@ public class SwingGUI {
         System.err.println("Initializing Swing GUI...");
         newFrame();
         setGrid(rows, cols);
+        addMenue();
 
     }
 
@@ -29,7 +39,7 @@ public class SwingGUI {
         }
         frame = new JFrame("Tailklicker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new java.awt.Dimension(800, 600));
+        frame.setPreferredSize(new java.awt.Dimension(800, 800));
         frame.setResizable(true);
         frame.pack(); // Pack the frame to fit the preferred size
         frame.setLocationRelativeTo(null);
@@ -40,7 +50,8 @@ public class SwingGUI {
     private void setGrid(int rows, int cols) {
         System.out.println("Setting up grid layout...");
         JPanel gridPanel = new JPanel();
-        gridPanel.setLayout(new java.awt.GridLayout(3, 3));
+        gridPanel.setLayout(new java.awt.GridLayout(rows, cols));
+        
         Kachel[][] kachelGroup = new Kachel[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -82,5 +93,26 @@ public class SwingGUI {
 
     public static void setRows(int rows) {
         SwingGUI.rows = rows;
+    }
+
+    private void addMenue() {
+        System.err.println("Adding menu...");
+        JMenuBar menueBar = new JMenuBar();
+        menueBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        // menuePanel.setPreferredSize(new java.awt.Dimension(800, 50));
+        
+        
+        // JMenu SchwierigkeitenMenu = new JMenu("Schwierigkeit");
+        schwierigkeitenMenu = new JComboBox<>(Schwierigkeit.values());
+        schwierigkeitenMenu.setSelectedItem(Schwierigkeit.LEICHT);
+        schwierigkeitenMenu.addActionListener(new SchwierigkeitenListener());
+        schwierigkeitenMenu.setToolTipText("Select the difficulty of the game. The game will restart with the selected difficulty.");
+        // SchwierigkeitenMenu.add(schwierigkeitenComboBox);
+        // menueBar.add(SchwierigkeitenMenu);
+        menueBar.add(schwierigkeitenMenu);
+        frame.add(menueBar, java.awt.BorderLayout.NORTH);
+        frame.setJMenuBar(menueBar);
+        frame.invalidate();
+        System.err.println("Menu added successfully.");
     }
 }

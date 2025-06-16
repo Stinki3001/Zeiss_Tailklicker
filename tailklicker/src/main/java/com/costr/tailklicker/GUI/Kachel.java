@@ -1,8 +1,11 @@
 package com.costr.tailklicker.GUI;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+
+import com.costr.tailklicker.TailklickerApplication;
 
 public class Kachel {
 
@@ -17,6 +20,8 @@ public class Kachel {
         this.y = y;
         this.isInverted = false;
         this.button = new JButton("Button " + (x) + "," + (y));
+        button.setBackground(java.awt.Color.WHITE);
+        button.setPreferredSize(new Dimension(100, 100));
 
     }
 
@@ -58,8 +63,8 @@ public class Kachel {
         return neighbours;
     }
 
-    public boolean istInFeld(int x, int y) {
-        if (y < 3 & x < 3 & y >= 0 & x >= 0) {
+    public static boolean istInFeld(int x, int y) {
+        if (y >= 0 && x >= 0 && y < TailklickerApplication.getRows() && x < TailklickerApplication.getCols()) {
             return true;
         } else {
 

@@ -16,9 +16,28 @@ import com.costr.tailklicker.GUI.SwingGUI;
 @SpringBootApplication
 public class TailklickerApplication {
 
+    private static int rows = 3;
+    private static int cols = 3;
+
     public static void main(String[] args) {
         System.setProperty("java.awt.headless", "false");
         SpringApplication.run(TailklickerApplication.class, args);
+    }
+
+    public static int getRows() {
+        return rows;
+    }
+
+    public static void setRows(int rows) {
+        TailklickerApplication.rows = rows;
+    }
+
+    public static int getCols() {
+        return cols;
+    }
+
+    public static void setCols(int cols) {
+        TailklickerApplication.cols = cols;
     }
 
     // @Profile("gui")
@@ -26,8 +45,7 @@ public class TailklickerApplication {
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
             SwingGUI gui = new SwingGUI();
-            int rows = 3;
-            int cols = 3;
+
             gui.init(rows, cols);
 
         };
