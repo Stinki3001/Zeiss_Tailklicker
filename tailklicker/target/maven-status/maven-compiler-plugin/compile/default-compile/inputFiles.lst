@@ -1,7 +1,11 @@
 C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\GUI\Kachel.java
 C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\GUI\SwingGUI.java
+C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\Logik\HighscoreListener.java
 C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\Logik\InvertedClick.java
-C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\Logik\MyActionListener.java
+C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\Logik\KachelListener.java
+C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\Logik\KlickZähler.java
+C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\Logik\Schwierigkeit.java
+C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\Logik\SchwierigkeitenListener.java
 C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\Logik\Winning.java
 C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\Logik\WinningActionListener.java
 C:\Users\xdfcostr\Programmieren\Zeiss_Tailklicker\tailklicker\src\main\java\com\costr\tailklicker\TailklickerApplication.java
