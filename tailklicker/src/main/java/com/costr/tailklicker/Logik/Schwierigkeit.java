@@ -24,4 +24,8 @@ public enum Schwierigkeit {
     public int getCols() {
         return cols;
     }
+
+    public String asString(){
+        return this.name().toUpperCase();
+    }
 }
