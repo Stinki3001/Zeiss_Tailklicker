@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import com.costr.tailklicker.Logik.KachelListener;
 import com.costr.tailklicker.Logik.Schwierigkeit;
-import com.costr.tailklicker.GUI.SwingGUI;
+import com.costr.tailklicker.TailklickerApplication;
 
 /**
  * HighscoreListener.java
@@ -15,11 +15,11 @@ import com.costr.tailklicker.GUI.SwingGUI;
 public class HighscoreListener implements ActionListener {
 
     HighscoreFrame highscoreFrame;
-    int count = KachelListener.getCount();
-    String name = "Fietje";
-    Schwierigkeit schwierigkeit = SwingGUI.getSelectedDifficulty();
+    private final int id = TailklickerApplication.player.getID();
+    private final String name = TailklickerApplication.player.getName();
+    private final int count = KachelListener.getCount();
+    private final Schwierigkeit schwierigkeit = TailklickerApplication.player.getLevel();
     String level = schwierigkeit.asString();
-    int id = 1;
 
     @Override
     public void actionPerformed(ActionEvent e) {

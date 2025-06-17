@@ -16,6 +16,7 @@ import com.costr.tailklicker.TailklickerApplication;
     @Override
     public void actionPerformed(ActionEvent e) {
         Schwierigkeit selectedDifficulty = SwingGUI.getSelectedDifficulty();
+        TailklickerApplication.player.setLevel(selectedDifficulty);
         int rows = selectedDifficulty.getRows();
         int cols = selectedDifficulty.getCols();
         

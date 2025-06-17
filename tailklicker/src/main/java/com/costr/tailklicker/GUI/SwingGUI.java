@@ -1,20 +1,26 @@
 package com.costr.tailklicker.GUI;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import com.costr.tailklicker.Logik.KachelListener;
+import com.costr.tailklicker.Logik.Player;
 import com.costr.tailklicker.Logik.Schwierigkeit;
 import com.costr.tailklicker.Logik.SchwierigkeitenListener;
+import com.costr.tailklicker.TailklickerApplication;
 
 public class SwingGUI {
 
-    static JFrame frame;
+    static JFrame mainFrame;
     private static int rows;
     private static int cols;
     private static JComboBox<Schwierigkeit> schwierigkeitenMenu;
+    private JFrame startFrame;
 
     public static Schwierigkeit getSelectedDifficulty() {
         return (Schwierigkeit) schwierigkeitenMenu.getSelectedItem();
@@ -24,26 +30,30 @@ public class SwingGUI {
         SwingGUI.rows = rows;
         SwingGUI.cols = cols;
         System.err.println("Initializing Swing GUI...");
-        newFrame();
+        if (startFrame != null) {
+            System.err.println("Disposing of the old startFrame.");
+            startFrame.dispose();
+        }
+        createMainFrame();
         setGrid(rows, cols);
         addMenue();
 
     }
 
-    private void newFrame() {
-        if (frame != null) {
-            System.err.println("Frame already exists, disposing of the old frame.");
-            frame.dispose();
+    private void createMainFrame() {
+        if (mainFrame != null) {
+            System.err.println("Frame already exists, disposing of the old mainFrame.");
+            mainFrame.dispose();
         } else {
-            System.err.println("Creating a new frame.");
+            System.err.println("Creating a new mainFrame.");
         }
-        frame = new JFrame("Tailklicker");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new java.awt.Dimension(800, 800));
-        frame.setResizable(true);
-        frame.pack(); // Pack the frame to fit the preferred size
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        mainFrame = new JFrame("Tailklicker");
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setPreferredSize(new java.awt.Dimension(800, 800));
+        mainFrame.setResizable(true);
+        mainFrame.pack(); // Pack the mainFrame to fit the preferred size
+        mainFrame.setLocationRelativeTo(null);
+        mainFrame.setVisible(true);
         System.out.println("Frame was created successfully.");
     }
 
@@ -51,7 +61,7 @@ public class SwingGUI {
         System.out.println("Setting up grid layout...");
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new java.awt.GridLayout(rows, cols));
-        
+
         Kachel[][] kachelGroup = new Kachel[rows][cols];
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
@@ -74,8 +84,8 @@ public class SwingGUI {
             }
         }
         System.err.println("Finished setting up grid layout.");
-        frame.add(gridPanel);
-        frame.revalidate();
+        mainFrame.add(gridPanel);
+        mainFrame.revalidate();
 
     }
 
@@ -100,19 +110,53 @@ public class SwingGUI {
         JMenuBar menueBar = new JMenuBar();
         menueBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         // menuePanel.setPreferredSize(new java.awt.Dimension(800, 50));
-        
-        
+
         // JMenu SchwierigkeitenMenu = new JMenu("Schwierigkeit");
         schwierigkeitenMenu = new JComboBox<>(Schwierigkeit.values());
         schwierigkeitenMenu.setSelectedItem(Schwierigkeit.LEICHT);
         schwierigkeitenMenu.addActionListener(new SchwierigkeitenListener());
-        schwierigkeitenMenu.setToolTipText("Select the difficulty of the game. The game will restart with the selected difficulty.");
+        schwierigkeitenMenu.setToolTipText(
+                "Select the difficulty of the game. The game will restart with the selected difficulty.");
         // SchwierigkeitenMenu.add(schwierigkeitenComboBox);
         // menueBar.add(SchwierigkeitenMenu);
         menueBar.add(schwierigkeitenMenu);
-        frame.add(menueBar, java.awt.BorderLayout.NORTH);
-        frame.setJMenuBar(menueBar);
-        frame.invalidate();
+        mainFrame.add(menueBar, java.awt.BorderLayout.NORTH);
+        mainFrame.setJMenuBar(menueBar);
+        mainFrame.invalidate();
         System.err.println("Menu added successfully.");
+    }
+
+    public Player createStartframe() {
+        Player player = new Player(0, null, Schwierigkeit.LEICHT, 0);
+        System.err.println("Creating start frame...");
+        startFrame = new JFrame("Tailklicker - Start");
+        startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        startFrame.setPreferredSize(new java.awt.Dimension(400, 200));
+        startFrame.setResizable(false);
+        startFrame.setLocationRelativeTo(null);
+        JTextArea startText = new JTextArea("""
+                Welcome to Tailklicker!
+                Click on the tiles to invert them.
+                Try to invert all tiles with the least clicks possible.
+                Select the difficulty from the menu above.
+                Have fun!""");
+        startText.setEditable(false);
+        startText.setLineWrap(true);
+        JTextField nameField = new JTextField("Enter your name here");
+        nameField.setToolTipText("Enter your name here. It will be used for the highscore.");
+
+        JButton startButton = new JButton("Start Game");
+        startButton.addActionListener(e -> {
+            player.setName(nameField.getText());
+            startFrame.dispose();
+            init(TailklickerApplication.getRows(), TailklickerApplication.getCols());
+        });
+
+        startFrame.add(startButton, java.awt.BorderLayout.SOUTH);
+        startFrame.add(startText, java.awt.BorderLayout.CENTER);
+        startFrame.add(nameField, java.awt.BorderLayout.NORTH);
+        startFrame.pack();
+        startFrame.setVisible(true);
+        return player;
     }
 }

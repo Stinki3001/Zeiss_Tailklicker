@@ -7,6 +7,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import com.costr.tailklicker.GUI.SwingGUI;
+import com.costr.tailklicker.Logik.Player;
 
 /**
  * Tailklicker Application
@@ -18,10 +19,22 @@ public class TailklickerApplication {
 
     private static int rows = 3;
     private static int cols = 3;
+    public static Player player;
 
     public static void main(String[] args) {
         System.setProperty("java.awt.headless", "false");
         SpringApplication.run(TailklickerApplication.class, args);
+    }
+
+    // @Profile("gui")
+    @Bean
+    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+        return args -> {
+            SwingGUI gui = new SwingGUI();
+            player = gui.createStartframe();
+            player.setID(100); // !!!!!!!!!!!!
+
+        };
     }
 
     public static int getRows() {
@@ -38,17 +51,6 @@ public class TailklickerApplication {
 
     public static void setCols(int cols) {
         TailklickerApplication.cols = cols;
-    }
-
-    // @Profile("gui")
-    @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-        return args -> {
-            SwingGUI gui = new SwingGUI();
-
-            gui.init(rows, cols);
-
-        };
     }
 
 }

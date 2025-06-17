@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
 
+import com.costr.tailklicker.TailklickerApplication;
 import com.costr.tailklicker.GUI.SwingGUI;
 
 /**
@@ -15,7 +16,7 @@ public class WinningActionListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         logger.info("Restarting game...");
         SwingGUI gui = new SwingGUI();
-        gui.init(SwingGUI.getRows(), SwingGUI.getCols());
+        gui.init(TailklickerApplication.getRows(), TailklickerApplication.getCols());
         Winning.winFrame.dispose();
         logger.info("Game restarted successfully.");
 

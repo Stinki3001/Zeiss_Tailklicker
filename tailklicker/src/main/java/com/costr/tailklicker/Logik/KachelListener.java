@@ -8,7 +8,6 @@ import static com.costr.tailklicker.Logik.InvertedClick.invert;
 
 public class KachelListener implements ActionListener, KlickZähler {
 
-
     private Kachel kachel;
     public static Kachel[][] kachelGroup;
     private static int count;
@@ -16,7 +15,7 @@ public class KachelListener implements ActionListener, KlickZähler {
     public KachelListener(Kachel[][] kachelGroup, Kachel kachel) {
         KachelListener.kachelGroup = kachelGroup;
         this.kachel = kachel;
-        
+
     }
 
     @Override
@@ -25,10 +24,10 @@ public class KachelListener implements ActionListener, KlickZähler {
         if (Winning.checkWinCondition(kachelGroup)) {
             System.err.println("You win!");
             Winning.createWinningMessage();
+        } else {
+            increment();
         }
-        increment();
-        
-        
+
     }
 
     @Override
@@ -41,12 +40,8 @@ public class KachelListener implements ActionListener, KlickZähler {
         count = 0;
     }
 
-    
     public static int getCount() {
         return count;
     }
-
-
-
 
 }
