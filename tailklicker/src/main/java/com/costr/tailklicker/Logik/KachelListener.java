@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 
 import com.costr.tailklicker.GUI.Kachel;
 import static com.costr.tailklicker.Logik.InvertedClick.invert;
+import com.costr.tailklicker.TailklickerApplication;
 
 public class KachelListener implements ActionListener, KlickZähler {
 
     private Kachel kachel;
     public static Kachel[][] kachelGroup;
-    private static int count;
 
     public KachelListener(Kachel[][] kachelGroup, Kachel kachel) {
         KachelListener.kachelGroup = kachelGroup;
@@ -32,16 +32,16 @@ public class KachelListener implements ActionListener, KlickZähler {
 
     @Override
     public void increment() {
-        count++;
+        TailklickerApplication.getPlayer().setCount(TailklickerApplication.getPlayer().getCount()+1);
     }
 
     @Override
     public void reset() {
-        count = 0;
+        TailklickerApplication.getPlayer().setCount(0);
     }
 
     public static int getCount() {
-        return count;
+        return TailklickerApplication.getPlayer().getCount();
     }
 
 }

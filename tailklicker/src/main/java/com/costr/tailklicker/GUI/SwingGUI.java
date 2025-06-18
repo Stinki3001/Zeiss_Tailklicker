@@ -1,5 +1,7 @@
 package com.costr.tailklicker.GUI;
 
+import java.util.logging.Level;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,7 +16,7 @@ import com.costr.tailklicker.Logik.Schwierigkeit;
 import com.costr.tailklicker.Logik.SchwierigkeitenListener;
 import com.costr.tailklicker.TailklickerApplication;
 
-public class SwingGUI {
+public class SwingGUI implements Notation{
 
     static JFrame mainFrame;
     private static int rows;
@@ -42,10 +44,10 @@ public class SwingGUI {
 
     private void createMainFrame() {
         if (mainFrame != null) {
-            System.err.println("Frame already exists, disposing of the old mainFrame.");
+            LOGGER.log(Level.INFO, "{0}Disposing of the old main frame...{1}", new Object[] { GREEN, RESET });
             mainFrame.dispose();
         } else {
-            System.err.println("Creating a new mainFrame.");
+            LOGGER.log(Level.INFO, "{0}Creating main frame...{1}", new Object[] { GREEN, RESET });
         }
         mainFrame = new JFrame("Tailklicker");
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,11 +56,12 @@ public class SwingGUI {
         mainFrame.pack(); // Pack the mainFrame to fit the preferred size
         mainFrame.setLocationRelativeTo(null);
         mainFrame.setVisible(true);
-        System.out.println("Frame was created successfully.");
+        LOGGER.log(Level.INFO, "{0}Main frame created successfully.{1}", new Object[] { GREEN, RESET });
     }
 
     private void setGrid(int rows, int cols) {
-        System.out.println("Setting up grid layout...");
+        LOGGER.log(Level.INFO, "{0}Setting up grid layout with {1} rows and {2} columns.{3}",
+                new Object[] { GREEN, rows, cols, RESET });
         JPanel gridPanel = new JPanel();
         gridPanel.setLayout(new java.awt.GridLayout(rows, cols));
 
@@ -75,9 +78,11 @@ public class SwingGUI {
         }
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                System.err.println("Setting neighbours for button " + (i + 1));
+                LOGGER.log(Level.INFO, "{0}Setting neighbours for button at ({1}, {2}){3}",
+                        new Object[] { GREEN, i, j, RESET });
                 kachelGroup[i][j].setNeighbours(kachelGroup, kachelGroup[i][j]);
-                System.err.println("Adding action listener to button " + (i + 1));
+                LOGGER.log(Level.INFO, "{0}Neighbours set for button at ({1}, {2}){3}",
+                        new Object[] { GREEN, i, j, RESET });
                 kachelGroup[i][j].getButton().addActionListener(new KachelListener(kachelGroup, kachelGroup[i][j]));
                 System.err.println("Action listener added to button " + (i + 1) + " successfully.");
 

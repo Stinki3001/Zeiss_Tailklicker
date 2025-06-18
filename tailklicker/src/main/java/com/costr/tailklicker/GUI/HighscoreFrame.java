@@ -1,23 +1,22 @@
 package com.costr.tailklicker.GUI;
 
 import java.awt.TextArea;
+import java.util.Set;
 
 import javax.swing.JFrame;
 
-import com.costr.tailklicker.Logik.DateiVerwaltung;
+import com.costr.tailklicker.Logik.Datei;
+import com.costr.tailklicker.Logik.Player;
 
 /**
  * HighscoreFrame.java
  *
  * @author Costr
  */
-public class HighscoreFrame {
-
-    private DateiVerwaltung dateiVerwaltung;
+public class HighscoreFrame extends Datei {
     private JFrame highscoreFrame;
 
     public HighscoreFrame() {
-        dateiVerwaltung = new DateiVerwaltung();
         highscoreFrame = new JFrame("Highscores");
         highscoreFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         highscoreFrame.setSize(400, 300);
@@ -26,24 +25,19 @@ public class HighscoreFrame {
         highscoreFrame.setVisible(true);
     }
 
-    void loadHighscore() {
-        dateiVerwaltung.load();
-    }
+    // void saveNewHighscore(Set<Player> playerList) {
+    //     write(RESET);
+    // }
 
-    void saveNewHighscore(String level, int ID, String name, int count) {
-        dateiVerwaltung.write("Id: " + ID + "\n" +
-                "Name: " + name + "\n" +
-                "Count: " + count + "\n" +
-                "Level: " + level + "\n");
-    }
-
-    void dispalyHighscore(String level, int ID, String name, int count) {
+    void dispalyHighscore(Set<Player> playerList) {
         TextArea highscore = new TextArea();
         highscore.setEditable(false);
-        highscore.setText("Id: " + ID + "\n" +
-                "Name: " + name + "\n" +
-                "Count: " + count + "\n" +
-                "Level: " + level + "\n");
+        for (Player player : playerList) {
+            highscore.append("ID: " + player.getID() + "\n" +
+                    "Name: " + player.getName() + "\n" +
+                    "Count: " + player.getCount() + "\n" +
+                    "Level: " + player.getLevel().asString() + "\n\n");
+        }
         highscoreFrame.add(highscore);
         highscoreFrame.invalidate();
     }

@@ -2,9 +2,8 @@ package com.costr.tailklicker.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
-import com.costr.tailklicker.Logik.KachelListener;
-import com.costr.tailklicker.Logik.Schwierigkeit;
 import com.costr.tailklicker.TailklickerApplication;
 
 /**
@@ -12,21 +11,24 @@ import com.costr.tailklicker.TailklickerApplication;
  *
  * @author Costr
  */
-public class HighscoreListener implements ActionListener {
+public class HighscoreListener implements ActionListener, Notation{
 
     HighscoreFrame highscoreFrame;
-    private final int id = TailklickerApplication.player.getID();
-    private final String name = TailklickerApplication.player.getName();
-    private final int count = KachelListener.getCount();
-    private final Schwierigkeit schwierigkeit = TailklickerApplication.player.getLevel();
-    String level = schwierigkeit.asString();
 
     @Override
     public void actionPerformed(ActionEvent e) {
         highscoreFrame = new HighscoreFrame();
-        System.out.println(level + " " + id + " " + name + " " + count);
-        highscoreFrame.saveNewHighscore(level, id, name, count);
-        highscoreFrame.dispalyHighscore(level, id, name, count);
+        
+        System.err.println("HighscoreListener: " + TailklickerApplication.getPlayerList().size() + " Spieler im Highscore");
+        if (TailklickerApplication.getPlayerList().contains(TailklickerApplication.getPlayer())) {
+            LOGGER.log(Level.INFO, "{0}Der Spieler {1} ist bereits im Highscore.{2}",
+                    new Object[] { GREEN, TailklickerApplication.getPlayer().getName(), RESET });
+        } else {
+            TailklickerApplication.addPlayerToList(TailklickerApplication.getPlayer());
+        }
+
+        highscoreFrame.dispalyHighscore(TailklickerApplication.getPlayerList());
+        highscoreFrame.write(TailklickerApplication.getPlayerList());
 
     }
 }

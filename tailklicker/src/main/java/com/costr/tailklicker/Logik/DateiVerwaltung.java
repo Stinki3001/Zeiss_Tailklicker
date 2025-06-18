@@ -7,7 +7,7 @@ import java.util.logging.Level;
 
 public class DateiVerwaltung extends Datei {
 
-    @Override
+    
     public String load() {
         try (BufferedReader reader = new BufferedReader(new FileReader(getDatei()))) {
             String line = reader.readLine();
@@ -18,7 +18,7 @@ public class DateiVerwaltung extends Datei {
             }
             return content.toString();
         } catch (Exception e) {
-            logger.log(Level.SEVERE, red + "Fehler beim Laden der Datei: " + getDatei().getName() + reset, e);
+            LOGGER.log(Level.SEVERE, RED + "Fehler beim Laden der Datei: " + getDatei().getName() + RESET, e);
             return null;
         }
     }
