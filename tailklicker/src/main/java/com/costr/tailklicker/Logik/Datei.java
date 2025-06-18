@@ -162,7 +162,7 @@ public abstract class Datei implements Notation {
                     new Object[] { BLAU, file.getName(), RESET });
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "{0}Fehler beim Schreiben der Datei: {1}{2}",
-                    new Object[] { RED, RESET});
+                    new Object[] { RED,this.getDateiname() ,RESET});
             e.printStackTrace();
         }
     }

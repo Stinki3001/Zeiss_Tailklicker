@@ -2,12 +2,13 @@ package com.costr.tailklicker.GUI;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.swing.JButton;
 
 import com.costr.tailklicker.TailklickerApplication;
 
-public class Kachel {
+public class Kachel implements Notation {
 
     private final int x;
     private final int y;
@@ -47,13 +48,14 @@ public class Kachel {
                 neighbours.add(kachelGroup[kachel.getX() + 1][kachel.getY()]); // right
             }
             if (istInFeld(kachel.getX(), kachel.getY() - 1)) {
-                            neighbours.add(kachelGroup[kachel.getX()][kachel.getY() - 1]); // up
+                neighbours.add(kachelGroup[kachel.getX()][kachel.getY() - 1]); // up
             }
             if (istInFeld(kachel.getX(), kachel.getY() + 1)) {
                 neighbours.add(kachelGroup[kachel.getX()][kachel.getY() + 1]); // down
             }
         } else {
-            System.err.println("Kachel is out of bounds");
+            LOGGER.log(Level.WARNING, "{0}Kachel {1},{2} is out of bounds.{3}",
+                    new Object[] { BRIGHT_RED, kachel.getX(), kachel.getY(), RESET });
             return;
         }
 
@@ -68,7 +70,8 @@ public class Kachel {
             return true;
         } else {
 
-            System.err.println("Kachel is out of bounds");
+            LOGGER.log(Level.WARNING, "{0}Kachel {1},{2} is out of bounds.{3}",
+                    new Object[] { BRIGHT_RED, x, y, RESET });
             return false;
         }
     }

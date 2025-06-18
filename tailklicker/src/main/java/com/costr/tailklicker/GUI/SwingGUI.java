@@ -16,7 +16,7 @@ import com.costr.tailklicker.Logik.Schwierigkeit;
 import com.costr.tailklicker.Logik.SchwierigkeitenListener;
 import com.costr.tailklicker.TailklickerApplication;
 
-public class SwingGUI implements Notation{
+public class SwingGUI implements Notation {
 
     static JFrame mainFrame;
     private static int rows;
@@ -29,11 +29,18 @@ public class SwingGUI implements Notation{
     }
 
     public void init(int rows, int cols) {
+        try {
+            TailklickerApplication.getPlayer().setLevel(getSelectedDifficulty());
+        } catch (Exception e) {
+            TailklickerApplication.getPlayer().setLevel(Schwierigkeit.LEICHT);
+        }
+        TailklickerApplication.getPlayer().setCount(0);
         SwingGUI.rows = rows;
         SwingGUI.cols = cols;
-        System.err.println("Initializing Swing GUI...");
+        LOGGER.log(Level.INFO, "{0}Initializing Swing GUI with {1} rows and {2} columns.{3}",
+                new Object[] { GREEN, rows, cols, RESET });
         if (startFrame != null) {
-            System.err.println("Disposing of the old startFrame.");
+            LOGGER.log(Level.INFO, "{0}Disposing of the old start frame...{1}", new Object[] { GREEN, RESET });
             startFrame.dispose();
         }
         createMainFrame();
@@ -69,10 +76,12 @@ public class SwingGUI implements Notation{
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
 
-                System.err.println("Creating button " + (i + 1));
+                LOGGER.log(Level.INFO, "{0}Creating button at ({1}, {2}){3}",
+                        new Object[] { BOLD_GREEN, i, j, RESET });
                 Kachel kachel = new Kachel(i, j);
                 kachelGroup[kachel.getX()][kachel.getY()] = kachel;
-                System.err.println("Button " + (i + 1) + " created successfully.");
+                LOGGER.log(Level.INFO, "{0}{4}Creating button at ({1}, {2}){3}{5}",
+                        new Object[] { BOLD_GREEN, i, j, RESET, GREEN_BACKGROUND, RESET_BACKGROUND });
                 gridPanel.add(kachelGroup[i][j].getButton());
             }
         }
@@ -84,11 +93,12 @@ public class SwingGUI implements Notation{
                 LOGGER.log(Level.INFO, "{0}Neighbours set for button at ({1}, {2}){3}",
                         new Object[] { GREEN, i, j, RESET });
                 kachelGroup[i][j].getButton().addActionListener(new KachelListener(kachelGroup, kachelGroup[i][j]));
-                System.err.println("Action listener added to button " + (i + 1) + " successfully.");
+                LOGGER.log(Level.INFO, "{0}ActionListener added for button at ({1}, {2}){3}",
+                        new Object[] { GREEN, i, j, RESET });
 
             }
         }
-        System.err.println("Finished setting up grid layout.");
+        LOGGER.log(Level.INFO, "{0}Grid layout set up successfully.{1}", new Object[] { GREEN, RESET });
         mainFrame.add(gridPanel);
         mainFrame.revalidate();
 
@@ -111,14 +121,14 @@ public class SwingGUI implements Notation{
     }
 
     private void addMenue() {
-        System.err.println("Adding menu...");
+        LOGGER.log(Level.INFO, "{0}Adding menu bar to main frame...{1}", new Object[] { BRIGHT_GREEN, RESET });
         JMenuBar menueBar = new JMenuBar();
         menueBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         // menuePanel.setPreferredSize(new java.awt.Dimension(800, 50));
 
         // JMenu SchwierigkeitenMenu = new JMenu("Schwierigkeit");
         schwierigkeitenMenu = new JComboBox<>(Schwierigkeit.values());
-        schwierigkeitenMenu.setSelectedItem(Schwierigkeit.LEICHT);
+        schwierigkeitenMenu.setSelectedItem(TailklickerApplication.getPlayer().getLevel());
         schwierigkeitenMenu.addActionListener(new SchwierigkeitenListener());
         schwierigkeitenMenu.setToolTipText(
                 "Select the difficulty of the game. The game will restart with the selected difficulty.");
@@ -128,12 +138,12 @@ public class SwingGUI implements Notation{
         mainFrame.add(menueBar, java.awt.BorderLayout.NORTH);
         mainFrame.setJMenuBar(menueBar);
         mainFrame.invalidate();
-        System.err.println("Menu added successfully.");
+        LOGGER.log(Level.INFO, "{0}Menu bar added successfully.{1}", new Object[] { BRIGHT_GREEN, RESET });
     }
 
     public Player createStartframe() {
         Player player = new Player(0, null, Schwierigkeit.LEICHT, 0);
-        System.err.println("Creating start frame...");
+        LOGGER.log(Level.INFO, "{0}Creating start frame...{1}", new Object[] { DARK_GREEN, RESET });
         startFrame = new JFrame("Tailklicker - Start");
         startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         startFrame.setPreferredSize(new java.awt.Dimension(400, 200));

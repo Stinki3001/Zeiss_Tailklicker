@@ -73,5 +73,6 @@ public class TailklickerApplication extends Datei {
     public static int getCurrentID() {
         return currentID;
     }
+    
 
 }

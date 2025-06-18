@@ -2,12 +2,14 @@ package com.costr.tailklicker.Logik;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
 
 import com.costr.tailklicker.GUI.Kachel;
+import com.costr.tailklicker.GUI.Notation;
 import static com.costr.tailklicker.Logik.InvertedClick.invert;
 import com.costr.tailklicker.TailklickerApplication;
 
-public class KachelListener implements ActionListener, KlickZähler {
+public class KachelListener implements ActionListener, KlickZähler, Notation {
 
     private Kachel kachel;
     public static Kachel[][] kachelGroup;
@@ -22,7 +24,7 @@ public class KachelListener implements ActionListener, KlickZähler {
     public void actionPerformed(ActionEvent e) {
         invert(kachel);
         if (Winning.checkWinCondition(kachelGroup)) {
-            System.err.println("You win!");
+            LOGGER.log(Level.INFO, "{0}Gewonnen!{1}", new Object[] { GREEN, RESET });
             Winning.createWinningMessage();
         } else {
             increment();
@@ -32,7 +34,7 @@ public class KachelListener implements ActionListener, KlickZähler {
 
     @Override
     public void increment() {
-        TailklickerApplication.getPlayer().setCount(TailklickerApplication.getPlayer().getCount()+1);
+        TailklickerApplication.getPlayer().setCount(TailklickerApplication.getPlayer().getCount() + 1);
     }
 
     @Override

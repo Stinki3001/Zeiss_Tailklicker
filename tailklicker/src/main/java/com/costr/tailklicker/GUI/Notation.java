@@ -62,7 +62,17 @@ public interface Notation {
             BOLD_BLUE_BACKGROUND = BOLD + BLUE_BACKGROUND,
             BOLD_MAGENTA_BACKGROUND = BOLD + MAGENTA_BACKGROUND,
             BOLD_CYAN_BACKGROUND = BOLD + CYAN_BACKGROUND,
-            BOLD_WHITE_BACKGROUND = BOLD + WHITE_BACKGROUND;
+            BOLD_WHITE_BACKGROUND = BOLD + WHITE_BACKGROUND,
+            DARK_GRAY = "\u001B[90m",
+            DARK_GREEN = "\u001B[32;1m",
+            DARK_BLUE = "\u001B[34;1m",
+            DARK_YELLOW = "\u001B[33;1m",
+            DARK_PURPLE = "\u001B[35;1m",
+            DARK_CYAN = "\u001B[36;1m",
+            DARK_WHITE = "\u001B[37;1m",
+            DARK = "\u001B[2m";
+    String RESET_BACKGROUND = "\u001B[49m";
+
 
     Logger LOGGER = Logger.getLogger(Notation.class.getName());
 }

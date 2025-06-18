@@ -1,10 +1,12 @@
 package com.costr.tailklicker.Logik;
 
 import java.awt.Color;
+import java.util.logging.Level;
 
 import com.costr.tailklicker.GUI.Kachel;
+import com.costr.tailklicker.GUI.Notation;
 
-public class InvertedClick {
+public class InvertedClick implements Notation {
 
     static void invert(Kachel kachel) {
         if (Kachel.istInFeld(kachel.getX(), kachel.getY())) {
@@ -15,7 +17,8 @@ public class InvertedClick {
                 kachel.getButton().setBackground(Color.WHITE);
             }
         } else {
-            System.err.println("Kachel is out of bounds");
+            LOGGER.log(Level.WARNING, "{0}Kachel {1},{2} is out of bounds.{3}",
+                    new Object[] { BRIGHT_RED, kachel.getX(), kachel.getY(), RESET });
             return;
         }
 
@@ -29,7 +32,8 @@ public class InvertedClick {
                 }
             } else {
 
-                System.err.println("Kachel is out of bounds");
+                LOGGER.log(Level.WARNING, "{0}Kachel {1},{2} is out of bounds.{3}",
+                        new Object[] { BRIGHT_RED, kachel.getX(), kachel.getY(), RESET });
                 return;
             }
         }
