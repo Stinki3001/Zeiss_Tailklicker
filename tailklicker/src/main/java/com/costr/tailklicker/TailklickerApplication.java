@@ -1,6 +1,7 @@
 package com.costr.tailklicker;
 
 import java.util.Set;
+import java.util.logging.Level;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -8,9 +9,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import com.costr.tailklicker.GUI.SwingGUI;
+import com.costr.tailklicker.GUI.AWTGUI.AWTGUI;
+import com.costr.tailklicker.GUI.GUI;
+import com.costr.tailklicker.GUI.Notation;
 import com.costr.tailklicker.Logik.Datei;
 import com.costr.tailklicker.Logik.Player;
+import com.costr.tailklicker.Logik.Schwierigkeit;
+
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.stage.Stage;
 
 /**
  * Tailklicker Application
@@ -18,28 +26,50 @@ import com.costr.tailklicker.Logik.Player;
  * @author Costr
  */
 @SpringBootApplication
-public class TailklickerApplication extends Datei {
+public class TailklickerApplication extends Application {
 
     private static int rows = 3;
     private static int cols = 3;
-    private static Player player;
-    private static Set<Player> playerList = loadJSONFile();
+
+    private static Set<Player> playerList = Datei.loadJSONFile();
     private static final int currentID = playerList.size();
+    private static Player player = new Player(1, "default", Schwierigkeit.LEICHT, 0);
+    private static GUI.Type guiType = GUI.Type.AWT;
+    private static Stage primaryStageInstance = new Stage();
 
     public static void main(String[] args) {
         System.setProperty("java.awt.headless", "false");
         SpringApplication.run(TailklickerApplication.class, args);
+
     }
 
     // @Profile("gui")
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
-            SwingGUI gui = new SwingGUI();
-            player = gui.createStartframe();
             player.setID();
+            GUI gui = new GUI();
+            gui.createStartFrame(guiType);
 
         };
+    }
+
+    public static Stage getPrimaryStageInstance() {
+        return primaryStageInstance;
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        Notation.LOGGER.log(Level.INFO, "{0}AWT Start complete{1}", 
+            new Object[] {Notation.GREEN, Notation.RESET});
+        primaryStageInstance = new Stage();
+    }
+
+    public static void showGUI() {
+        Platform.runLater(() -> {
+            AWTGUI awtGUI = new AWTGUI();
+            awtGUI.createStartStage(primaryStageInstance);
+        });
     }
 
     public static int getRows() {
@@ -73,6 +103,13 @@ public class TailklickerApplication extends Datei {
     public static int getCurrentID() {
         return currentID;
     }
-    
+
+    public static Schwierigkeit getSelectedDifficulty() {
+        return player.getLevel();
+    }
+
+    public static GUI.Type getGUIType() {
+        return guiType;
+    }
 
 }

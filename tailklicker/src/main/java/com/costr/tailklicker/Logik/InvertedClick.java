@@ -3,8 +3,8 @@ package com.costr.tailklicker.Logik;
 import java.awt.Color;
 import java.util.logging.Level;
 
-import com.costr.tailklicker.GUI.Kachel;
 import com.costr.tailklicker.GUI.Notation;
+import com.costr.tailklicker.GUI.SwingGUI.Kachel;
 
 public class InvertedClick implements Notation {
 

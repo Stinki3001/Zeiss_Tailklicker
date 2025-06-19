@@ -147,7 +147,8 @@ public abstract class Datei implements Notation {
                     .add("id", currentplayer.getID())
                     .add("name", currentplayer.getName())
                     .add("level", currentplayer.getLevel().asString().toUpperCase())
-                    .add("count", currentplayer.getCount()));
+                    .add("count", currentplayer.getCount()).build());
+            
         }
 
         JsonObject root = Json.createObjectBuilder()

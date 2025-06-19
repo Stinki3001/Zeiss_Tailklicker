@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 
-import com.costr.tailklicker.GUI.Kachel;
 import com.costr.tailklicker.GUI.Notation;
+import com.costr.tailklicker.GUI.SwingGUI.Kachel;
 import static com.costr.tailklicker.Logik.InvertedClick.invert;
 import com.costr.tailklicker.TailklickerApplication;
 

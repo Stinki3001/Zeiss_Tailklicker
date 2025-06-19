@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import com.costr.tailklicker.GUI.HighscoreListener;
-import com.costr.tailklicker.GUI.Kachel;
+import com.costr.tailklicker.GUI.SwingGUI.HighscoreListener;
+import com.costr.tailklicker.GUI.SwingGUI.Kachel;
 
 
 /**
