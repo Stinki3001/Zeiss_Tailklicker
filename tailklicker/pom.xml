@@ -55,6 +55,12 @@
             <artifactId>javax.json</artifactId>
             <version>1.1.4</version>
         </dependency>
+
+        <!-- Web-Starter enthält alles für @Controller, @RestController, etc. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
   
     </dependencies>
 
