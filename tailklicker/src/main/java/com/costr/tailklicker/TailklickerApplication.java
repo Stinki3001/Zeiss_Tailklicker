@@ -34,7 +34,7 @@ public class TailklickerApplication extends Application {
     private static Set<Player> playerList = Datei.loadJSONFile();
     private static final int currentID = playerList.size();
     private static Player player = new Player(1, "default", Schwierigkeit.LEICHT, 0);
-    private static GUI.Type guiType = GUI.Type.SWING;
+    private static GUI.Type guiType = GUI.Type.FX;
     private static Stage primaryStageInstance = new Stage();
 
     public static void main(String[] args) {
