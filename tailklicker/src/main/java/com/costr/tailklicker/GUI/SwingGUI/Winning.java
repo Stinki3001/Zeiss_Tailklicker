@@ -1,4 +1,4 @@
-package com.costr.tailklicker.Logik;
+package com.costr.tailklicker.GUI.SwingGUI;
 
 import java.awt.Dimension;
 
@@ -8,7 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import com.costr.tailklicker.GUI.SwingGUI.HighscoreListener;
-import com.costr.tailklicker.GUI.SwingGUI.Kachel;
+import com.costr.tailklicker.Logik.Kachel;
+import com.costr.tailklicker.Logik.KachelListener;
 
 
 /**

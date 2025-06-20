@@ -1,5 +1,6 @@
 package com.costr.tailklicker.GUI.SwingGUI;
 
+import java.awt.Color;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -10,10 +11,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+
 import com.costr.tailklicker.GUI.Notation;
+import com.costr.tailklicker.Logik.Kachel;
 import com.costr.tailklicker.Logik.KachelListener;
 import com.costr.tailklicker.Logik.Schwierigkeit;
 import com.costr.tailklicker.Logik.SchwierigkeitenListener;
+
 import com.costr.tailklicker.TailklickerApplication;
 
 public class SwingGUI implements Notation {
@@ -21,6 +27,7 @@ public class SwingGUI implements Notation {
     static JFrame mainFrame;
     private static JComboBox<Schwierigkeit> schwierigkeitenMenu;
     private JFrame startFrame;
+    private KachelSwingView[][] kachelViews;
 
     public void init(int rows, int cols) {
         LOGGER.log(Level.INFO, "{0}Initializing Swing GUI with {1} rows and {2} columns.{3}",
@@ -66,11 +73,12 @@ public class SwingGUI implements Notation {
                         new Object[] { BOLD_GREEN, i, j, RESET });
                 Kachel kachel = new Kachel(i, j);
                 kachelGroup[kachel.getX()][kachel.getY()] = kachel;
+
                 LOGGER.log(Level.INFO, "{0}{4}Creating button at ({1}, {2}){3}{5}",
                         new Object[] { BOLD_GREEN, i, j, RESET, GREEN_BACKGROUND, RESET_BACKGROUND });
-                gridPanel.add(kachelGroup[i][j].getButton());
             }
         }
+
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 LOGGER.log(Level.INFO, "{0}Setting neighbours for button at ({1}, {2}){3}",
@@ -78,12 +86,34 @@ public class SwingGUI implements Notation {
                 kachelGroup[i][j].setNeighbours(kachelGroup, kachelGroup[i][j]);
                 LOGGER.log(Level.INFO, "{0}Neighbours set for button at ({1}, {2}){3}",
                         new Object[] { GREEN, i, j, RESET });
-                kachelGroup[i][j].getButton().addActionListener(new KachelListener(kachelGroup, kachelGroup[i][j]));
                 LOGGER.log(Level.INFO, "{0}ActionListener added for button at ({1}, {2}){3}",
                         new Object[] { GREEN, i, j, RESET });
 
             }
         }
+
+        kachelViews = new KachelSwingView[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                KachelSwingView view = new KachelSwingView(kachelViews, kachelGroup[i][j]);
+                kachelViews[i][j] = view;
+
+                view.getButton().addActionListener(e -> {
+                    KachelListener listener = new KachelListener(kachelGroup, view.getKachel());
+                    listener.actionPerformed();
+                    view.update();
+                    if (Winning.checkWinCondition(kachelGroup)) {
+                        LOGGER.log(Level.INFO, "{0}Gewonnen!{1}", new Object[] { GREEN, RESET });
+                        Winning.createWinningMessage();
+                    } else {
+                        listener.increment();
+                    }
+                });
+
+                gridPanel.add(view.getButton());
+            }
+        }
+
         LOGGER.log(Level.INFO, "{0}Grid layout set up successfully.{1}", new Object[] { GREEN, RESET });
         mainFrame.add(gridPanel);
         mainFrame.revalidate();
@@ -94,9 +124,7 @@ public class SwingGUI implements Notation {
         LOGGER.log(Level.INFO, "{0}Adding menu bar to main frame...{1}", new Object[] { BRIGHT_GREEN, RESET });
         JMenuBar menueBar = new JMenuBar();
         menueBar.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
-        // menuePanel.setPreferredSize(new java.awt.Dimension(800, 50));
 
-        // JMenu SchwierigkeitenMenu = new JMenu("Schwierigkeit");
         schwierigkeitenMenu = new JComboBox<>(Schwierigkeit.values());
         schwierigkeitenMenu.setSelectedItem(TailklickerApplication.getPlayer().getLevel());
         schwierigkeitenMenu
@@ -106,8 +134,6 @@ public class SwingGUI implements Notation {
                 });
         schwierigkeitenMenu.setToolTipText(
                 "Select the difficulty of the game. The game will restart with the selected difficulty.");
-        // SchwierigkeitenMenu.add(schwierigkeitenComboBox);
-        // menueBar.add(SchwierigkeitenMenu);
         menueBar.add(schwierigkeitenMenu);
         mainFrame.add(menueBar, java.awt.BorderLayout.NORTH);
         mainFrame.setJMenuBar(menueBar);
@@ -130,7 +156,7 @@ public class SwingGUI implements Notation {
                 Have fun!""");
         startText.setEditable(false);
         startText.setLineWrap(true);
-        JTextField nameField = new JTextField("Enter your name here");
+        JTextField nameField = new JTextField();
         nameField.setToolTipText("Enter your name here. It will be used for the highscore.");
 
         JButton startButton = new JButton("Start Game");
@@ -142,8 +168,37 @@ public class SwingGUI implements Notation {
 
         startFrame.add(startButton, java.awt.BorderLayout.SOUTH);
         startFrame.add(startText, java.awt.BorderLayout.CENTER);
+        PromptSupport.setPrompt("Enter your Name here", nameField);
         startFrame.add(nameField, java.awt.BorderLayout.NORTH);
         startFrame.pack();
         startFrame.setVisible(true);
+    }
+}
+
+class PromptSupport {
+
+    public static void setPrompt(final String promptText, final JTextField textField) {
+        Color promptColor = Color.GRAY;
+
+        textField.setForeground(promptColor);
+        textField.setText(promptText);
+
+        textField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (textField.getText().equals(promptText)) {
+                    textField.setText("");
+                    textField.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (textField.getText().isEmpty()) {
+                    textField.setForeground(promptColor);
+                    textField.setText(promptText);
+                }
+            }
+        });
     }
 }

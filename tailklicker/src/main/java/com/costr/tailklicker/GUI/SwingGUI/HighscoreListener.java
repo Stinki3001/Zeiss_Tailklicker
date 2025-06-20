@@ -16,7 +16,7 @@ import com.costr.tailklicker.TailklickerApplication;
  */
 public class HighscoreListener implements ActionListener, Notation {
 
-    HighscoreFrame highscoreFrame;
+        HighscoreFrame highscoreFrame;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -26,6 +26,7 @@ public class HighscoreListener implements ActionListener, Notation {
 
         LOGGER.log(Level.INFO, "{0}HighscoreListener: {1} Spieler im Highscore{2}",
                 new Object[] { BLAU, playerList.size(), RESET });
+        Boolean add = false;
         outer:
             for (Player oldPlayer : playerList) {
                 if (oldPlayer.getName().equals(currentPlayer.getName())
@@ -46,7 +47,10 @@ public class HighscoreListener implements ActionListener, Notation {
                 }
 
             }
-            LOGGER.log(Level.INFO, "{0}Der Spieler {1} ist nicht im Highscore.{2}",
+            add = true;
+        }
+        if(add){
+                LOGGER.log(Level.INFO, "{0}Der Spieler {1} ist nicht im Highscore.{2}",
                     new Object[] { BLAU, TailklickerApplication.getPlayer().getName(), RESET });
             TailklickerApplication.addPlayerToList(TailklickerApplication.getPlayer());
             LOGGER.log(Level.INFO, "{0}Der Spieler {1} wurde zum Highscore hinzugefügt.{2}",

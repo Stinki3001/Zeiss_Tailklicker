@@ -1,4 +1,4 @@
-package com.costr.tailklicker.Logik;
+package com.costr.tailklicker.GUI.SwingGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

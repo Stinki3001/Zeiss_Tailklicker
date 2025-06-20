@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-import com.costr.tailklicker.GUI.AWTGUI.AWTGUI;
+import com.costr.tailklicker.GUI.FXGUI.FXGUI;
 import com.costr.tailklicker.GUI.GUI;
 import com.costr.tailklicker.GUI.Notation;
 import com.costr.tailklicker.Logik.Datei;
@@ -34,7 +34,7 @@ public class TailklickerApplication extends Application {
     private static Set<Player> playerList = Datei.loadJSONFile();
     private static final int currentID = playerList.size();
     private static Player player = new Player(1, "default", Schwierigkeit.LEICHT, 0);
-    private static GUI.Type guiType = GUI.Type.AWT;
+    private static GUI.Type guiType = GUI.Type.SWING;
     private static Stage primaryStageInstance = new Stage();
 
     public static void main(String[] args) {
@@ -67,7 +67,7 @@ public class TailklickerApplication extends Application {
 
     public static void showGUI() {
         Platform.runLater(() -> {
-            AWTGUI awtGUI = new AWTGUI();
+            FXGUI awtGUI = new FXGUI();
             awtGUI.createStartStage(primaryStageInstance);
         });
     }

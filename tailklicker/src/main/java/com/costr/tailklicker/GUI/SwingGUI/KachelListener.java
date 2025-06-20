@@ -1,6 +1,8 @@
-package com.costr.tailklicker.Logik;
+package com.costr.tailklicker.GUI.SwingGUI;
 
 import com.costr.tailklicker.GUI.Notation;
+import com.costr.tailklicker.Logik.Kachel;
+import com.costr.tailklicker.Logik.KlickZähler;
 import com.costr.tailklicker.TailklickerApplication;
 
 public class KachelListener implements KlickZähler, Notation {
@@ -12,12 +14,6 @@ public class KachelListener implements KlickZähler, Notation {
         KachelListener.kachelGroup = kachelGroup;
         this.kachel = kachel;
 
-    }
-    public void actionPerformed(){
-        InvertedClick.invert(kachel);
-        for(Kachel elm : kachel.getNeighbours()){
-            InvertedClick.invert(elm);
-        }
     }
 
     @Override

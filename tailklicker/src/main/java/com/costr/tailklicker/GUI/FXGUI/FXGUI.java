@@ -1,26 +1,37 @@
-package com.costr.tailklicker.GUI.AWTGUI;
+package com.costr.tailklicker.GUI.FXGUI;
 
 import java.util.logging.Level;
 
+import com.costr.tailklicker.GUI.GUI;
 import com.costr.tailklicker.GUI.Notation;
+import com.costr.tailklicker.Logik.Kachel;
+import com.costr.tailklicker.Logik.KachelListener;
 import com.costr.tailklicker.Logik.Schwierigkeit;
+import com.costr.tailklicker.Logik.SchwierigkeitenListener;
 import com.costr.tailklicker.TailklickerApplication;
 
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.CustomMenuItem;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class AWTGUI implements Notation {
+public class FXGUI implements Notation {
 
     static Stage mainStage;
     private Scene startScene;
     private ComboBox<Schwierigkeit> schwierigkeitenMenu;
+    private GridPane gridPane;
 
     public void init(int rows, int cols) {
         // this.mainStage = primaryStage;
@@ -31,9 +42,6 @@ public class AWTGUI implements Notation {
             startScene.getWindow().hide();
         }
         createGameStage();
-        setGrid(rows, cols);
-        addMenue();
-
     }
 
     public void createStartStage(Stage stage) {
@@ -54,7 +62,7 @@ public class AWTGUI implements Notation {
         Button startButton = new Button("Start");
         startButton.setOnAction(e -> {
             TailklickerApplication.getPlayer().setName(nameField.getText());
-            createGameStage();
+            init(TailklickerApplication.getRows(), TailklickerApplication.getCols());
             LOGGER.log(Level.INFO, "{0}Starting game for player: {1}{2}",
                     new Object[] { GREEN, TailklickerApplication.getPlayer().getName(), RESET });
             // startScene.getWindow().hide();
@@ -77,17 +85,61 @@ public class AWTGUI implements Notation {
     }
 
     private void createGameStage() {
-        LOGGER.log(Level.SEVERE, "{0}createGameStage not supported yet.{1}",
-                new Object[] { RED, RESET });
+        BorderPane root = new BorderPane();
+        gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10));
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
+
+        addMenuBar(root);
+        setGrid(TailklickerApplication.getRows(), TailklickerApplication.getCols());
+
+        root.setCenter(gridPane);
+
+        Scene scene = new Scene(root, 800, 800);
+        mainStage.setTitle("Tailklicker");
+        mainStage.setScene(scene);
+        mainStage.show();
     }
 
     private void setGrid(int rows, int cols) {
-        LOGGER.log(Level.SEVERE, "{0}setGrid not supported yet.{1}",
-                new Object[] { RED, RESET });
+         Kachel[][] kachelGroup = new Kachel[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                Kachel kachel = new Kachel(i, j);
+                kachelGroup[i][j] = kachel;
+                kachel.addButton(GUI.Type.AWT);
+                gridPane.add(tileButton, j, i);
+            }
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                kachelGroup[i][j].setNeighbours(kachelGroup, kachelGroup[i][j]);
+                kachelGroup[i][j].getButton().setOnAction(new KachelListener(kachelGroup, kachelGroup[i][j]));
+                
+            }
+        }
     }
 
-    private void addMenue() {
-        LOGGER.log(Level.SEVERE, "{0}addMenu not supported yet.{1}",
-                new Object[] { RED, RESET });
+    private void addMenuBar(BorderPane root) {
+        MenuBar menuBar = new MenuBar();
+        Menu gameMenu = new Menu("Game");
+
+        schwierigkeitenMenu = new ComboBox<>();
+        schwierigkeitenMenu.getItems().addAll(Schwierigkeit.values());
+        schwierigkeitenMenu.setValue(TailklickerApplication.getPlayer().getLevel());
+        schwierigkeitenMenu.setOnAction(e -> {
+            new SchwierigkeitenListener()
+                    .actionPerformed(schwierigkeitenMenu.getValue());
+        });
+
+        CustomMenuItem comboMenuItem = new CustomMenuItem(schwierigkeitenMenu);
+        comboMenuItem.setHideOnClick(false);
+
+        gameMenu.getItems().add(comboMenuItem);
+        menuBar.getMenus().add(gameMenu);
+        root.setTop(menuBar);
     }
 }

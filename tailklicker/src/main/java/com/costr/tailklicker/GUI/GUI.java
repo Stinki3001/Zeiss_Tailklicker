@@ -2,14 +2,14 @@ package com.costr.tailklicker.GUI;
 
 import java.util.logging.Level;
 
-import com.costr.tailklicker.GUI.AWTGUI.AWTGUI;
+import com.costr.tailklicker.GUI.FXGUI.FXGUI;
 import com.costr.tailklicker.GUI.SwingGUI.SwingGUI;
 import com.costr.tailklicker.TailklickerApplication;
 
 public class GUI implements Notation {
 
     public enum Type {
-        AWT, SWING
+        FX, SWING
     }
 
     public void init(int rows, int cols, Type guiType) {
@@ -21,7 +21,7 @@ public class GUI implements Notation {
                 new Object[] { GREEN, guiType, rows, cols, RESET });
 
         switch (guiType) {
-            case AWT -> new AWTGUI().init(rows, cols);
+            case FX -> new FXGUI().init(rows, cols);
             case SWING -> new SwingGUI().init(rows, cols);
 
             default -> LOGGER.log(Level.WARNING, "{0}Unsupported GUI type: {1}{2}",
@@ -34,7 +34,7 @@ public class GUI implements Notation {
                 new Object[] { GREEN, guiType, RESET });
 
         switch (guiType) {
-            case AWT -> TailklickerApplication.showGUI();
+            case FX -> TailklickerApplication.showGUI();
             case SWING -> new SwingGUI().createStartframe();
 
             default -> LOGGER.log(Level.WARNING, "{0}Unsupported GUI type: {1}{2}",

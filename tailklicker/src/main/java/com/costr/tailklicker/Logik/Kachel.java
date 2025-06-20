@@ -1,10 +1,7 @@
-package com.costr.tailklicker.GUI.SwingGUI;
+package com.costr.tailklicker.Logik;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.logging.Level;
-
-import javax.swing.JButton;
 
 import com.costr.tailklicker.GUI.Notation;
 import com.costr.tailklicker.TailklickerApplication;
@@ -14,21 +11,12 @@ public class Kachel implements Notation {
     private final int x;
     private final int y;
     public boolean isInverted;
-    private final JButton button;
     private ArrayList<Kachel> neighbours;
 
     public Kachel(int x, int y) {
         this.x = x;
         this.y = y;
         this.isInverted = false;
-        this.button = new JButton("Button " + (x) + "," + (y));
-        button.setBackground(java.awt.Color.WHITE);
-        button.setPreferredSize(new Dimension(100, 100));
-
-    }
-
-    public JButton getButton() {
-        return button;
     }
 
     public int getY() {
