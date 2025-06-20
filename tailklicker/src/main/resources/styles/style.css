@@ -1,3 +1,11 @@
+.button {
+    -fx-max-width: infinity;
+    -fx-max-height: infinity;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+}
+
+
 .button-white {
     -fx-background-color: white;
 }

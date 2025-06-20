@@ -1,8 +1,6 @@
 package com.costr.tailklicker.GUI.SwingGUI;
 
 import com.costr.tailklicker.Logik.Kachel;
-import com.costr.tailklicker.Logik.KachelListener;
-
 import javax.swing.JButton;
 
 import java.awt.Color;

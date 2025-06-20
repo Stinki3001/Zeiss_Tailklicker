@@ -14,7 +14,7 @@ public class KachelListener implements KlickZähler, Notation {
 
     }
     public void actionPerformed(){
-        InvertedClick.invert(kachel);
+         InvertedClick.invert(kachel);
         for(Kachel elm : kachel.getNeighbours()){
             InvertedClick.invert(elm);
         }
