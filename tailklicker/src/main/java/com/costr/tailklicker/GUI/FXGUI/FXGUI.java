@@ -11,7 +11,6 @@ import com.costr.tailklicker.Logik.SchwierigkeitenListener;
 import com.costr.tailklicker.TailklickerApplication;
 
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -28,7 +27,7 @@ import javafx.stage.Stage;
 
 public class FXGUI implements Notation {
 
-    static Stage mainStage;
+    protected static Stage mainStage;
     private Scene startScene;
     private ComboBox<Schwierigkeit> schwierigkeitenMenu;
     private GridPane gridPane;
@@ -96,9 +95,10 @@ public class FXGUI implements Notation {
 
         root.setCenter(gridPane);
 
-        Scene scene = new Scene(root, 800, 800);
+        Scene gameScene = new Scene(root, 800, 800);
         mainStage.setTitle("Tailklicker");
-        mainStage.setScene(scene);
+        gameScene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
+        mainStage.setScene(gameScene);
         mainStage.show();
     }
 
@@ -109,7 +109,6 @@ public class FXGUI implements Notation {
             for (int j = 0; j < cols; j++) {
                 Kachel kachel = new Kachel(i, j);
                 kachelGroup[i][j] = kachel;
-                kachel.addButton(GUI.Type.AWT);
                 gridPane.add(tileButton, j, i);
             }
         }
