@@ -32,8 +32,7 @@ public class TailklickerApplication extends Application {
     private static int cols = 3;
 
     private static Set<Player> playerList = Datei.loadJSONFile();
-    private static final int currentID = playerList.size();
-    private static Player player = new Player(1, "default", Schwierigkeit.LEICHT, 0);
+    private static Player player = new Player("default", Schwierigkeit.LEICHT, 0);
     private static GUI.Type guiType = GUI.Type.FX;
     private static Stage primaryStageInstance = new Stage();
 
@@ -47,7 +46,6 @@ public class TailklickerApplication extends Application {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
-            player.setID();
             GUI gui = new GUI();
             gui.createStartFrame(guiType);
 
@@ -60,8 +58,8 @@ public class TailklickerApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Notation.LOGGER.log(Level.INFO, "{0}AWT Start complete{1}", 
-            new Object[] {Notation.GREEN, Notation.RESET});
+        Notation.LOGGER.log(Level.INFO, "{0}AWT Start complete{1}",
+                new Object[] { Notation.GREEN, Notation.RESET });
         primaryStageInstance = new Stage();
     }
 
@@ -100,16 +98,16 @@ public class TailklickerApplication extends Application {
         playerList.add(player);
     }
 
-    public static int getCurrentID() {
-        return currentID;
-    }
-
     public static Schwierigkeit getSelectedDifficulty() {
         return player.getLevel();
     }
 
     public static GUI.Type getGUIType() {
         return guiType;
+    }
+
+    public static void setPlayer(Player player) {
+        TailklickerApplication.player = player;
     }
 
 }

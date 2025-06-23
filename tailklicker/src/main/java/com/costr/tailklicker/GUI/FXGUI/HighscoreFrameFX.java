@@ -37,13 +37,12 @@ public class HighscoreFrameFX extends Datei {
         highscoreTextField.setEditable(false);
 
         StringBuilder highscores = new StringBuilder();
-        highscores.append("ID\tName\t\tLevel\tCount\n");
+        highscores.append("Name\tLevel\tCount\n");
         for (Player player : playerList) {
 
-            highscores.append(player.getID() + "\t" +
-                    player.getName() + "\t\t" +
-                    player.getCount() + "\t" +
-                    player.getLevel().asString() + "\n");
+            highscores.append(player.getName()).append("\t\t")
+                    .append(player.getCount()).append("\t")
+                    .append(player.getLevel().asString()).append("\n");
         }
         highscoreTextField.setText(highscores.toString());
 

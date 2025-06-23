@@ -20,7 +20,6 @@ import com.costr.tailklicker.TailklickerApplication;
                 new Object[] { BOLD_BLUE, event, RESET });
         TailklickerApplication.getPlayer().setLevel(event);
         TailklickerApplication.getPlayer().setCount(0);
-        TailklickerApplication.getPlayer().setID();
         LOGGER.log(Level.INFO, "{0}Counter zurückgesetzt. {1}",
                 new Object[] { GREEN, RESET});
         

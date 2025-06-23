@@ -114,7 +114,6 @@ public abstract class Datei implements Notation {
 
                 jsonObject.getJsonArray("highscores").forEach(jsonValue -> {
                     playerList.add(new Player(
-                            jsonValue.asJsonObject().getInt("id"),
                             jsonValue.asJsonObject().getString("name"),
                             Schwierigkeit.valueOf(jsonValue.asJsonObject().getString("level")),
                             jsonValue.asJsonObject().getInt("count")));
@@ -144,7 +143,6 @@ public abstract class Datei implements Notation {
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         for (Player currentplayer : playerList) {
             arrayBuilder.add(Json.createObjectBuilder()
-                    .add("id", currentplayer.getID())
                     .add("name", currentplayer.getName())
                     .add("level", currentplayer.getLevel().asString().toUpperCase())
                     .add("count", currentplayer.getCount()).build());

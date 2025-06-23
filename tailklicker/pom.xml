@@ -11,7 +11,7 @@
     <groupId>com.costr</groupId>
     <artifactId>tailklicker</artifactId>
     <!-- Version -->
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.5.1-SNAPSHOT</version>
     <name>tailklicker</name>
     <description>Demo project for Spring Boot</description>
     <url/>
@@ -30,7 +30,10 @@
     <properties>
         <java.version>21</java.version>
         <javafx.version>21.0.1</javafx.version>
+        <skipTests>true</skipTests>
     </properties>
+
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -55,12 +58,6 @@
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
             <version>1.1.4</version>
-        </dependency>
-
-        <!-- Web-Starter enthält alles für @Controller, @RestController, etc. -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <dependency>

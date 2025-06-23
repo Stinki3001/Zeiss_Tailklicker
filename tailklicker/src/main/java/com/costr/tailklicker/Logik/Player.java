@@ -3,7 +3,6 @@ package com.costr.tailklicker.Logik;
 import java.util.logging.Level;
 
 import com.costr.tailklicker.GUI.Notation;
-import com.costr.tailklicker.TailklickerApplication;
 
 /**
  * @author costr
@@ -11,13 +10,11 @@ import com.costr.tailklicker.TailklickerApplication;
 
 public class Player implements Notation {
 
-    private int ID;
     private String name;
     private Schwierigkeit level = Schwierigkeit.LEICHT; // Default level
     private int count;
 
-    public Player(int id, String name, Schwierigkeit level, int count) {
-        this.ID = id;
+    public Player(String name, Schwierigkeit level, int count) {
         this.name = name;
         this.level = level;
         this.count = count;
@@ -34,10 +31,6 @@ public class Player implements Notation {
             LOGGER.log(Level.WARNING, "{0}Das Objekt {1} ist kein Spieler.{2}",
                     new Object[] { RED, obj.getClass().getSimpleName(), RESET });
             return false;
-        } else if (this.getID() == ((Player) obj).getID()) {
-            LOGGER.log(Level.INFO, "{0}Der Spieler {1} ist gleich wie {2}.{3}",
-                    new Object[] { GREEN, this.name, ((Player) obj).getName(), RESET });
-            return false;
         } else {
             return true;
         }
@@ -45,11 +38,10 @@ public class Player implements Notation {
     }
 
     public int hashCode() {
-        return Integer.hashCode(ID);
-    }
 
-    public int getID() {
-        return ID;
+        int code = Integer.hashCode(this.getName().hashCode());
+        code = code + Integer.hashCode(this.getLevel().hashCode());
+        return code;
     }
 
     public String getName() {
@@ -62,28 +54,6 @@ public class Player implements Notation {
 
     public int getCount() {
         return count;
-    }
-
-    public void setID() {
-        int levelID;
-        switch (level) {
-            case LEICHT:
-                levelID = 1;
-                break;
-            case MITTEL:
-                levelID = 2;
-                break;
-            case SCHWER:
-                levelID = 3;
-                break;
-            case EXTREM:
-                levelID = 4;
-                break;
-            default:
-                levelID = 0; // Default case if no level matches
-        }
-        String idString = String.format("%02d%02d", levelID, TailklickerApplication.getCurrentID());
-        this.ID = Integer.parseInt(idString);
     }
 
     public void setName(String name) {

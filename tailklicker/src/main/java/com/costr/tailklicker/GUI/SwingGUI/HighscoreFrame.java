@@ -26,15 +26,14 @@ public class HighscoreFrame extends Datei {
     }
 
     // void saveNewHighscore(Set<Player> playerList) {
-    //     write(RESET);
+    // write(RESET);
     // }
 
     void dispalyHighscore(Set<Player> playerList) {
         TextArea highscore = new TextArea();
         highscore.setEditable(false);
         for (Player player : playerList) {
-            highscore.append("ID: " + player.getID() + "\n" +
-                    "Name: " + player.getName() + "\n" +
+            highscore.append("Name: " + player.getName() + "\n" +
                     "Count: " + player.getCount() + "\n" +
                     "Level: " + player.getLevel().asString() + "\n\n");
         }

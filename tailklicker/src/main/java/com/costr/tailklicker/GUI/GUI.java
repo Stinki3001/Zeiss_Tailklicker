@@ -4,6 +4,7 @@ import java.util.logging.Level;
 
 import com.costr.tailklicker.GUI.FXGUI.FXGUI;
 import com.costr.tailklicker.GUI.SwingGUI.SwingGUI;
+import com.costr.tailklicker.Logik.Player;
 import com.costr.tailklicker.TailklickerApplication;
 
 public class GUI implements Notation {
@@ -14,7 +15,8 @@ public class GUI implements Notation {
 
     public void init(int rows, int cols, Type guiType) {
 
-        TailklickerApplication.getPlayer().setCount(0);
+        Player player = TailklickerApplication.getPlayer();
+        TailklickerApplication.setPlayer(new Player(player.getName(), player.getLevel(), 0));
         TailklickerApplication.setRows(rows);
         TailklickerApplication.setCols(cols);
         LOGGER.log(Level.INFO, "{0}Initializing {1} with {2} rows and {3} columns.{4}",
