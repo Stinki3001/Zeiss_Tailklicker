@@ -1,15 +1,11 @@
 package com.costr.tailklicker.GUI.FXGUI;
 
-import com.costr.tailklicker.GUI.SwingGUI.HighscoreListener;
-import com.costr.tailklicker.Logik.Kachel;
 import com.costr.tailklicker.Logik.KachelListener;
 
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -21,16 +17,7 @@ public class WinningFX {
     static Stage winStage;
     static Scene winScene;
 
-    public static boolean checkWinCondition(Kachel[][] kachelGroup) {
-        for (Kachel[] row : kachelGroup) {
-            for (Kachel kachel : row) {
-                if (!kachel.isInverted) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
+   
 
     public static void createWinningMessage() {
         winStage = new Stage();
@@ -38,6 +25,7 @@ public class WinningFX {
         winStage.setOnCloseRequest(e -> {
             System.exit(0);
         });
+        
         winStage.setWidth(600);
         winStage.setHeight(600);
         winStage.setResizable(true);
@@ -49,10 +37,12 @@ public class WinningFX {
         restartButton.setOnAction(e -> {
             new WinningActionListenerFX().actionPerformed();
         });
+        
         Button highscoreButton = new Button("Show Highscores");
         highscoreButton.setOnAction(e -> {
             new HighscoreListenerFX().actionPerformed();
         });
+
         pane.setTop(restartButton);
         pane.setBottom(highscoreButton);
 

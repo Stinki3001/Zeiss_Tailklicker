@@ -2,7 +2,6 @@ package com.costr.tailklicker.GUI.FXGUI;
 
 import java.util.Set;
 
-import com.costr.tailklicker.Logik.Datei;
 import com.costr.tailklicker.Logik.Player;
 
 import javafx.scene.Scene;
@@ -16,7 +15,7 @@ import javafx.stage.Stage;
  *
  * @author Costr
  */
-public class HighscoreFrameFX extends Datei {
+public class HighscoreFrameFX {
     private Stage highscoreStage;
     private Scene highscoreScene;
 
@@ -40,7 +39,7 @@ public class HighscoreFrameFX extends Datei {
         highscores.append("Name\tLevel\tCount\n");
         for (Player player : playerList) {
 
-            highscores.append(player.getName()).append("\t\t")
+            highscores.append(player.getName()).append("\t")
                     .append(player.getCount()).append("\t")
                     .append(player.getLevel().asString()).append("\n");
         }

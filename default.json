@@ -2,13 +2,18 @@
     "highscores": [
         {
             "name": "Fietje",
-            "level": "LEICHT",
-            "count": 6
+            "level": "MITTEL",
+            "count": 13
         },
         {
             "name": "Fietje",
-            "level": "MITTEL",
-            "count": 13
+            "level": "SCHWER",
+            "count": 294
+        },
+        {
+            "name": "Fietje",
+            "level": "LEICHT",
+            "count": 4
         }
     ]
 }

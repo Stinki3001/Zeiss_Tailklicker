@@ -19,7 +19,7 @@ import javax.json.JsonWriter;
 
 import com.costr.tailklicker.GUI.Notation;
 
-public abstract class Datei implements Notation {
+public class JSONDatei implements Notation {
 
     static File file = new File("default.json");
     private String dateiname = file.getName();
@@ -46,25 +46,25 @@ public abstract class Datei implements Notation {
             return;
         } else {
             File zdatei = new File(dateiname);
-            if (Datei.file.renameTo(zdatei)) {
+            if (JSONDatei.file.renameTo(zdatei)) {
             }
-            this.dateiname = Datei.file.getName();
+            this.dateiname = JSONDatei.file.getName();
         }
     }
 
     /**
-     * Gibt die Datei zurück.
+     * Gibt die JSONDatei zurück.
      *
-     * @return die Datei
+     * @return die JSONDatei
      */
     File getDatei() {
         return file;
     }
 
     /**
-     * Setzt die Datei.
+     * Setzt die JSONDatei.
      *
-     * @param file die neue Datei
+     * @param file die neue JSONDatei
      */
     void setDatei(File file) {
         this.file = new File(file.getAbsolutePath());
@@ -81,16 +81,16 @@ public abstract class Datei implements Notation {
     }
 
     /**
-     * Lädt den Inhalt der Datei.
+     * Lädt den Inhalt der JSONDatei.
      */
     public static Set<Player> loadJSONFile() {
-        LOGGER.log(Level.INFO, "{0}Lade den Inhalt der Datei: {1}{2}", new Object[] { BLAU, file.getName(), RESET });
+        LOGGER.log(Level.INFO, "{0}Lade den Inhalt der JSONDatei: {1}{2}", new Object[] { BLAU, file.getName(), RESET });
         if (!file.exists()) {
-            LOGGER.log(Level.WARNING, "{0}Die Datei {1} existiert nicht.{2}",
+            LOGGER.log(Level.WARNING, "{0}Die JSONDatei {1} existiert nicht.{2}",
                     new Object[] { RED, file.getName(), RESET });
             return null;
         } else if (!file.canRead()) {
-            LOGGER.log(Level.WARNING, "{0}Die Datei {1} kann nicht gelesen werden.{2}",
+            LOGGER.log(Level.WARNING, "{0}Die JSONDatei {1} kann nicht gelesen werden.{2}",
                     new Object[] { RED, file.getName(), RESET });
             return null;
         } else {
@@ -98,7 +98,7 @@ public abstract class Datei implements Notation {
             Set<Player> playerList = new HashSet<>();
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 
-                LOGGER.log(Level.INFO, "{0}1Lese den Inhalt der Datei: {1}{2}",
+                LOGGER.log(Level.INFO, "{0}1Lese den Inhalt der JSONDatei: {1}{2}",
                         new Object[] { BLAU, file.getName(), RESET });
                 String line;
                 StringBuilder jsonBuilder = new StringBuilder();
@@ -119,11 +119,11 @@ public abstract class Datei implements Notation {
                             jsonValue.asJsonObject().getInt("count")));
                 });
 
-                LOGGER.log(Level.INFO, "{0}Inhalt der Datei {1} erfolgreich geladen.{2}",
+                LOGGER.log(Level.INFO, "{0}Inhalt der JSONDatei {1} erfolgreich geladen.{2}",
                         new Object[] { BLAU, file.getName(), RESET });
 
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "{0}Fehler beim Lesen der Datei: {1}{2}",
+                LOGGER.log(Level.SEVERE, "{0}Fehler beim Lesen der JSONDatei: {1}{2}",
                         new Object[] { RED, e, RESET });
             }
 
@@ -132,14 +132,14 @@ public abstract class Datei implements Notation {
     }
 
     /**
-     * Speichert den Inhalt der Datei.
+     * Speichert den Inhalt der JSONDatei.
      */
     public void save(File file) {
         throw new UnsupportedOperationException("Diese Methode muss in der Unterklasse implementiert werden.");
     }
 
     public void write(Set<Player> playerList) {
-        LOGGER.log(Level.INFO, "{0}Schreibe in die Datei: {1}{2}", new Object[] { BLAU, file.getName(), RESET });
+        LOGGER.log(Level.INFO, "{0}Schreibe in die JSONDatei: {1}{2}", new Object[] { BLAU, file.getName(), RESET });
         JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
         for (Player currentplayer : playerList) {
             arrayBuilder.add(Json.createObjectBuilder()
@@ -153,14 +153,14 @@ public abstract class Datei implements Notation {
                 .add("highscores", arrayBuilder)
                 .build();
 
-        // Datei schreiben
+        // JSONDatei schreiben
         try (OutputStream os = Files.newOutputStream(Paths.get(file.getAbsolutePath()));
                 JsonWriter writer = Json.createWriter(os)) {
             writer.writeObject(root);
-            LOGGER.log(Level.INFO, "{0}Inhalt der Datei {1} erfolgreich geschrieben.{2}",
+            LOGGER.log(Level.INFO, "{0}Inhalt der JSONDatei {1} erfolgreich geschrieben.{2}",
                     new Object[] { BLAU, file.getName(), RESET });
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "{0}Fehler beim Schreiben der Datei: {1}{2}",
+            LOGGER.log(Level.SEVERE, "{0}Fehler beim Schreiben der JSONDatei: {1}{2}",
                     new Object[] { RED,this.getDateiname() ,RESET});
             e.printStackTrace();
         }

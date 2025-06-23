@@ -36,16 +36,16 @@ public class FXGUI implements Notation {
 
     public void init(int rows, int cols) {
         LOGGER.log(Level.INFO, "{0}Initializing FX GUI with {1} rows and {2} columns.{3}",
-                new Object[]{GREEN, rows, cols, RESET});
+                new Object[] { GREEN, rows, cols, RESET });
         if (startScene != null) {
-            LOGGER.log(Level.INFO, "{0}Disposing of the old start frame...{1}", new Object[]{GREEN, RESET});
+            LOGGER.log(Level.INFO, "{0}Disposing of the old start frame...{1}", new Object[] { GREEN, RESET });
             startScene.getWindow().hide();
         }
         createGameStage();
     }
 
     public void createStartStage(Stage stage) {
-        LOGGER.log(Level.INFO, "{0}Creating start stage...{1}", new Object[]{GREEN, RESET});
+        LOGGER.log(Level.INFO, "{0}Creating start stage...{1}", new Object[] { GREEN, RESET });
 
         // 🔧 gesetzt: mainStage speichern
         mainStage = stage;
@@ -68,7 +68,7 @@ public class FXGUI implements Notation {
             TailklickerApplication.getPlayer().setName(nameField.getText());
             init(TailklickerApplication.getRows(), TailklickerApplication.getCols());
             LOGGER.log(Level.INFO, "{0}Starting game for player: {1}{2}",
-                    new Object[]{GREEN, TailklickerApplication.getPlayer().getName(), RESET});
+                    new Object[] { GREEN, TailklickerApplication.getPlayer().getName(), RESET });
         });
 
         VBox layout = new VBox(10, intro, nameField, startButton);
@@ -77,7 +77,8 @@ public class FXGUI implements Notation {
         layout.setPrefHeight(200);
 
         startScene = new Scene(layout);
-        startScene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm()); // ✅ deine CSS bleibt
+        startScene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm()); // ✅ deine CSS
+                                                                                                       // bleibt
 
         stage.setTitle("Tailklicker - Start");
         stage.setScene(startScene);
@@ -138,12 +139,7 @@ public class FXGUI implements Notation {
                     listener.actionPerformed();
                     kachelViews[i][j].update(); // 🔧 aktualisiere alle angrenzenden Buttons
 
-                    if (WinningFX.checkWinCondition(kachelGroup)) {
-                        LOGGER.log(Level.INFO, "{0}Gewonnen!{1}", new Object[]{GREEN, RESET});
-                        WinningFX.createWinningMessage();
-                    } else {
-                        listener.increment();
-                    }
+                    
                 });
             }
         }

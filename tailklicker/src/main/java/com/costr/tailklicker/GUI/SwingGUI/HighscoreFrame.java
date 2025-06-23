@@ -5,7 +5,6 @@ import java.util.Set;
 
 import javax.swing.JFrame;
 
-import com.costr.tailklicker.Logik.Datei;
 import com.costr.tailklicker.Logik.Player;
 
 /**
@@ -13,7 +12,7 @@ import com.costr.tailklicker.Logik.Player;
  *
  * @author Costr
  */
-public class HighscoreFrame extends Datei {
+public class HighscoreFrame {
     private JFrame highscoreFrame;
 
     public HighscoreFrame() {

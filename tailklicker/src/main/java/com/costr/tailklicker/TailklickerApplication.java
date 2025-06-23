@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import com.costr.tailklicker.GUI.FXGUI.FXGUI;
 import com.costr.tailklicker.GUI.GUI;
 import com.costr.tailklicker.GUI.Notation;
-import com.costr.tailklicker.Logik.Datei;
+import com.costr.tailklicker.Logik.JSONDatei;
 import com.costr.tailklicker.Logik.Player;
 import com.costr.tailklicker.Logik.Schwierigkeit;
 
@@ -31,7 +31,8 @@ public class TailklickerApplication extends Application {
     private static int rows = 3;
     private static int cols = 3;
 
-    private static Set<Player> playerList = Datei.loadJSONFile();
+    public static final JSONDatei dateiVerwalter = new JSONDatei();
+    private static Set<Player> playerList = dateiVerwalter.loadJSONFile();
     private static Player player = new Player("default", Schwierigkeit.LEICHT, 0);
     private static GUI.Type guiType = GUI.Type.FX;
     private static Stage primaryStageInstance = new Stage();
