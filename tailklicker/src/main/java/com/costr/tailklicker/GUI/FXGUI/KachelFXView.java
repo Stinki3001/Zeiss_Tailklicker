@@ -18,7 +18,7 @@ public class KachelFXView implements Notation {
     public KachelFXView(KachelFXView[][] views, Kachel kachel) {
         this.views = views;
         this.kachel = kachel;
-        this.button = new QuadraticButton("[" + kachel.getX() + "," + kachel.getY() + "]");
+        this.button = new Button("[" + kachel.getX() + "," + kachel.getY() + "]");
         // this.button.setPrefSize(60, 60);
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
@@ -69,16 +69,4 @@ public class KachelFXView implements Notation {
     public void refresh() {
         updateStyle();
     }
-}
-
-class QuadraticButton extends Button {
-
-    public QuadraticButton() {
-        super();
-    }
-
-    public QuadraticButton(String text) {
-        super(text);
-    }
-
 }

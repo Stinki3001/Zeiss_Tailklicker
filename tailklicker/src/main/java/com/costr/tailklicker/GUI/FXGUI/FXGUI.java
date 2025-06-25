@@ -23,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -138,7 +139,7 @@ public class FXGUI implements Notation {
             gridPane.getColumnConstraints().add(cc);
         }
         for (int i = 0; i < rows; i++) {
-            javafx.scene.layout.RowConstraints rc = new javafx.scene.layout.RowConstraints();
+            RowConstraints rc = new javafx.scene.layout.RowConstraints();
             rc.setPercentHeight(100.0 / rows);
             rc.setVgrow(Priority.ALWAYS);
             gridPane.getRowConstraints().add(rc);
