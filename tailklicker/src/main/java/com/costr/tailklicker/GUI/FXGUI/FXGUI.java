@@ -20,7 +20,9 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -77,8 +79,7 @@ public class FXGUI implements Notation {
         layout.setPrefHeight(200);
 
         startScene = new Scene(layout);
-        startScene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm()); // ✅ deine CSS
-                                                                                                       // bleibt
+        startScene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
 
         stage.setTitle("Tailklicker - Start");
         stage.setScene(startScene);
@@ -92,6 +93,7 @@ public class FXGUI implements Notation {
     private void createGameStage() {
         BorderPane root = new BorderPane();
         gridPane = new GridPane();
+        gridPane.prefHeightProperty().bind(root.widthProperty());
         gridPane.setPadding(new Insets(10));
         gridPane.setHgap(5);
         gridPane.setVgap(5);
@@ -110,37 +112,61 @@ public class FXGUI implements Notation {
     }
 
     private void setGrid(int rows, int cols) {
-        Kachel[][] kachelGroup = new Kachel[rows][cols];
-        kachelViews = new KachelFXView[rows][cols]; // 🔧 View-Grid
+        Kachel[][] kachelGroup = new Kachel[cols][rows];
+        kachelViews = new KachelFXView[cols][rows];
 
-        gridPane.getChildren().clear(); // 🔧 sauberer Neuaufbau
+        gridPane.getChildren().clear();
+        gridPane.getColumnConstraints().clear();
+        gridPane.getRowConstraints().clear();
 
+        // Seitenverhältnis anpassen, damit Buttons quadratisch bleiben
+        if (cols > rows) {
+            // Höhe richtet sich nach Breite
+            gridPane.maxHeightProperty().bind(gridPane.widthProperty().multiply((double) rows / cols));
+            gridPane.minHeightProperty().bind(gridPane.widthProperty().multiply((double) rows / cols));
+        } else {
+            // Breite richtet sich nach Höhe
+            gridPane.maxWidthProperty().bind(gridPane.heightProperty().multiply((double) cols / rows));
+            gridPane.minWidthProperty().bind(gridPane.heightProperty().multiply((double) cols / rows));
+        }
+
+        // Spalten- und Zeilen-Verteilung
+        for (int i = 0; i < cols; i++) {
+            ColumnConstraints cc = new ColumnConstraints();
+            cc.setPercentWidth(100.0 / cols);
+            cc.setHgrow(Priority.ALWAYS);
+            gridPane.getColumnConstraints().add(cc);
+        }
         for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                Kachel kachel = new Kachel(i, j);
-                kachelGroup[i][j] = kachel;
+            javafx.scene.layout.RowConstraints rc = new javafx.scene.layout.RowConstraints();
+            rc.setPercentHeight(100.0 / rows);
+            rc.setVgrow(Priority.ALWAYS);
+            gridPane.getRowConstraints().add(rc);
+        }
 
-                KachelFXView view = new KachelFXView(kachelViews, kachel); // 🔧 Wrapper-Klasse
-                kachelViews[i][j] = view;
+        // Buttons anlegen
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                Kachel kachel = new Kachel(x, y);
+                kachelGroup[x][y] = kachel;
 
-                gridPane.add(view.getButton(), j, i); // 🔧 statt tileButton
+                KachelFXView view = new KachelFXView(kachelViews, kachel);
+                kachelViews[x][y] = view;
+
+                Button btn = view.getButton();
+                gridPane.add(btn, x, y);
+
+                btn.setOnAction(e -> {
+                    new KachelListener(kachelGroup, kachel).actionPerformed();
+                    view.update();
+                });
             }
         }
 
-        for (int firsti = 0; firsti < rows; firsti++) {
-            for (int firstj = 0; firstj < cols; firstj++) {
-                final int i = firsti;
-                final int j = firstj;
-                kachelGroup[i][j].setNeighbours(kachelGroup, kachelGroup[i][j]);
-
-                Button btn = kachelViews[i][j].getButton(); // 🔧 Zugriff auf FX-Button
-                btn.setOnAction(e -> {
-                    KachelListener listener = new KachelListener(kachelGroup, kachelGroup[i][j]);
-                    listener.actionPerformed();
-                    kachelViews[i][j].update(); // 🔧 aktualisiere alle angrenzenden Buttons
-
-                    
-                });
+        // Nachbarn setzen
+        for (int y = 0; y < rows; y++) {
+            for (int x = 0; x < cols; x++) {
+                kachelGroup[x][y].setNeighbours(kachelGroup, kachelGroup[x][y]);
             }
         }
     }
@@ -152,6 +178,7 @@ public class FXGUI implements Notation {
 
         settingsMenu.getItems().add(new CustomMenuItem(new Button("Restart Game"), false));
         settingsMenu.getItems().add(new CustomMenuItem(new Button("Exit Game"), false));
+
         settingsMenu.getItems().get(0).setOnAction(e -> {
             new RestartListener().actionPerformed();
         });
@@ -170,9 +197,66 @@ public class FXGUI implements Notation {
         CustomMenuItem comboMenuItem = new CustomMenuItem(schwierigkeitenMenu);
         comboMenuItem.setHideOnClick(false);
 
+        gameMenu.getItems().add(new CustomMenuItem(new Button("Custom"), false));
+        gameMenu.getItems().get(0).setOnAction(e -> {
+            LOGGER.log(Level.INFO, "{0}Custom game option selected.{1}", new Object[] { GREEN, RESET });
+            createCustomGame();
+        });
+
         gameMenu.getItems().add(comboMenuItem);
         menuBar.getMenus().add(gameMenu);
         menuBar.getMenus().add(settingsMenu);
         root.setTop(menuBar);
+    }
+
+    private void createCustomGame() {
+        Scene customScene = new Scene(new BorderPane(), 400, 300);
+        Stage customStage = new Stage();
+
+        BorderPane customRoot = new BorderPane();
+        VBox customLayout = new VBox(10);
+        customLayout.setPadding(new Insets(10));
+        TextArea customIntro = new TextArea("""
+                Create your own game!
+                Set the number of rows and columns.
+                Click 'Start Custom Game' to begin.
+                """);
+        customIntro.setWrapText(true);
+        customIntro.setEditable(false);
+        TextField rowsField = new TextField();
+        rowsField.setPromptText("Enter number of rows");
+        TextField colsField = new TextField();
+        colsField.setPromptText("Enter number of columns");
+        Button startCustomButton = new Button("Start Custom Game");
+        startCustomButton.setOnAction(e -> {
+            try {
+                int rows = Integer.parseInt(rowsField.getText());
+                int cols = Integer.parseInt(colsField.getText());
+                if (rows > 0 && cols > 0) {
+                    TailklickerApplication.setRows(rows);
+                    TailklickerApplication.setCols(cols);
+                    new RestartListener().actionPerformed();
+                    customStage.close();
+                } else {
+                    LOGGER.log(Level.WARNING, "{0}Invalid input for rows or columns.{1}", new Object[] { RED, RESET });
+                }
+            } catch (NumberFormatException ex) {
+                LOGGER.log(Level.WARNING, "{0}Please enter valid numbers.{1}", new Object[] { RED, RESET });
+            }
+        });
+        customLayout.getChildren().addAll(customIntro, rowsField, colsField, startCustomButton);
+        customRoot.setCenter(customLayout);
+        customRoot.setPadding(new Insets(10));
+        customScene.setRoot(customRoot);
+        customScene.getStylesheets().add(getClass().getResource("/styles/style.css").toExternalForm());
+        customStage.setWidth(400);
+        customStage.setHeight(300);
+
+        customStage.setTitle("Custom Game");
+        customStage.setScene(customScene);
+        customStage.setOnCloseRequest(event -> {
+            customStage.close();
+        });
+        customStage.show();
     }
 }

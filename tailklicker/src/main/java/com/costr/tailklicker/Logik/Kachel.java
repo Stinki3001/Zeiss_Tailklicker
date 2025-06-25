@@ -55,7 +55,8 @@ public class Kachel implements Notation {
     }
 
     public static boolean istInFeld(int x, int y) {
-        if (y >= 0 && x >= 0 && y < TailklickerApplication.getRows() && x < TailklickerApplication.getCols()) {
+        try{
+        if (x >= 0 && y >= 0 && y < TailklickerApplication.getRows() && x < TailklickerApplication.getCols()) {
             return true;
         } else {
 
@@ -63,5 +64,10 @@ public class Kachel implements Notation {
                     new Object[] { BRIGHT_RED, x, y, RESET });
             return false;
         }
+    } catch (Exception e){
+        LOGGER.log(Level.SEVERE, "{0}Error checking bounds for Kachel {1},{2}: {3}{4}",
+                new Object[] { BRIGHT_RED, x, y, e.getMessage(), RESET });
+        return false;
+    }
     }
 }

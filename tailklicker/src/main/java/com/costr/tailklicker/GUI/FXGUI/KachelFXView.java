@@ -1,13 +1,12 @@
 package com.costr.tailklicker.GUI.FXGUI;
 
+import java.util.logging.Level;
+
 import com.costr.tailklicker.GUI.Notation;
 import com.costr.tailklicker.Logik.Kachel;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
-
-import java.util.logging.Level;
-
 import javafx.scene.layout.Priority;
 
 public class KachelFXView implements Notation {
@@ -19,8 +18,8 @@ public class KachelFXView implements Notation {
     public KachelFXView(KachelFXView[][] views, Kachel kachel) {
         this.views = views;
         this.kachel = kachel;
-        this.button = new Button("[" + kachel.getX() + "," + kachel.getY() + "]");
-        this.button.setMinSize(60, 60);
+        this.button = new QuadraticButton("[" + kachel.getX() + "," + kachel.getY() + "]");
+        // this.button.setPrefSize(60, 60);
         button.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
         GridPane.setHgrow(button, Priority.ALWAYS);
@@ -50,7 +49,7 @@ public class KachelFXView implements Notation {
     }
 
     void updateStyle() {
-         if (kachel.isInverted) {
+        if (kachel.isInverted) {
             button.getStyleClass().remove("button-white");
             button.getStyleClass().add("button-black");
         } else {
@@ -70,4 +69,16 @@ public class KachelFXView implements Notation {
     public void refresh() {
         updateStyle();
     }
+}
+
+class QuadraticButton extends Button {
+
+    public QuadraticButton() {
+        super();
+    }
+
+    public QuadraticButton(String text) {
+        super(text);
+    }
+
 }
