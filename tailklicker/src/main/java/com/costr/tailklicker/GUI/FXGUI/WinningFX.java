@@ -35,7 +35,7 @@ public class WinningFX {
 
         Button restartButton = new Button("Restart Game");
         restartButton.setOnAction(e -> {
-            new WinningActionListenerFX().actionPerformed();
+            new RestartListener().actionPerformed();
         });
         
         Button highscoreButton = new Button("Show Highscores");

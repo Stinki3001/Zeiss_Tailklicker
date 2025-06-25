@@ -148,6 +148,17 @@ public class FXGUI implements Notation {
     private void addMenuBar(BorderPane root) {
         MenuBar menuBar = new MenuBar();
         Menu gameMenu = new Menu("Game");
+        Menu settingsMenu = new Menu("Settings");
+
+        settingsMenu.getItems().add(new CustomMenuItem(new Button("Restart Game"), false));
+        settingsMenu.getItems().add(new CustomMenuItem(new Button("Exit Game"), false));
+        settingsMenu.getItems().get(0).setOnAction(e -> {
+            new RestartListener().actionPerformed();
+        });
+        settingsMenu.getItems().get(1).setOnAction(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
         schwierigkeitenMenu = new ComboBox<>();
         schwierigkeitenMenu.getItems().addAll(Schwierigkeit.values());
@@ -161,6 +172,7 @@ public class FXGUI implements Notation {
 
         gameMenu.getItems().add(comboMenuItem);
         menuBar.getMenus().add(gameMenu);
+        menuBar.getMenus().add(settingsMenu);
         root.setTop(menuBar);
     }
 }

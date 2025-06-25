@@ -9,15 +9,15 @@ import com.costr.tailklicker.TailklickerApplication;
 /**
  * @author Costr
  */
-public class WinningActionListenerFX implements Notation {
+public class RestartListener implements Notation {
 
 
     public void actionPerformed() {
-        LOGGER.log(Level.INFO, "{0}Der Spieler {1} hat das Spiel gewonnen!{2}",
-                new Object[] { BOLD_BLUE, TailklickerApplication.getPlayer().getName(), RESET });
         GUI gui = new GUI();
         gui.init(TailklickerApplication.getRows(), TailklickerApplication.getCols(), TailklickerApplication.getGUIType());
-        WinningFX.winStage.close();
+        if(WinningFX.winStage != null) {
+            WinningFX.winStage.close();
+        }
         LOGGER.log(Level.INFO, "{0}Das Spiel wurde zurückgesetzt.{1}",
                 new Object[] { BOLD_BLUE, RESET });
 
