@@ -7,10 +7,11 @@ public enum Schwierigkeit {
     LEICHT(3, 3),
     MITTEL(4, 4),
     SCHWER(5, 5),
-    EXTREM(6, 6);
+    EXTREM(6, 6),
+    CUSTOM(0, 0);
 
-    private final int rows;
-    private final int cols;
+    private int rows;
+    private int cols;
 
     Schwierigkeit(int rows, int cols) {
         this.rows = rows;
@@ -25,7 +26,15 @@ public enum Schwierigkeit {
         return cols;
     }
 
-    public String asString(){
+    public String asString() {
         return this.name().toUpperCase();
+    }
+    public static Schwierigkeit fromString(String name) {
+        for (Schwierigkeit s : values()) {
+            if (s.name().equalsIgnoreCase(name)) {
+                return s;
+            }
+        }
+        throw new IllegalArgumentException("Unbekannte Schwierigkeit: " + name);
     }
 }

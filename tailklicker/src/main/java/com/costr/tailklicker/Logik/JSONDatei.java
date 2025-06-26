@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +22,8 @@ import com.costr.tailklicker.GUI.Notation;
 
 public class JSONDatei implements Notation {
 
-    static File file = new File("default.json");
+    private static final Path SAVE_DIR = Paths.get("tailklicker", "saves");
+    static File file = new File(SAVE_DIR.toFile(), "save.json");
     private String dateiname = file.getName();
 
     /**
@@ -84,6 +86,8 @@ public class JSONDatei implements Notation {
      * Lädt den Inhalt der JSONDatei.
      */
     public static Set<Player> loadJSONFile() {
+        System.out.println("" + file.getAbsolutePath());
+        System.out.println(SAVE_DIR.toAbsolutePath());
         LOGGER.log(Level.INFO, "{0}Lade den Inhalt der JSONDatei: {1}{2}", new Object[] { BLAU, file.getName(), RESET });
         if (!file.exists()) {
             LOGGER.log(Level.WARNING, "{0}Die JSONDatei {1} existiert nicht.{2}",

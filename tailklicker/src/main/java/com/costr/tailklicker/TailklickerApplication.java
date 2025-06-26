@@ -1,5 +1,8 @@
 package com.costr.tailklicker;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -47,6 +50,24 @@ public class TailklickerApplication extends Application {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
+            Path saveDir = Paths.get("tailklicker", "saves");
+
+            if( !Files.exists(saveDir)) {
+                Files.createDirectories(saveDir);
+                Notation.LOGGER.log(Level.INFO, "{0}Erstelle Verzeichnis: {1}{2}",
+                        new Object[] { Notation.GREEN, saveDir.toAbsolutePath(), Notation.RESET });
+            } else {
+                Notation.LOGGER.log(Level.INFO, "{0}Verzeichnis existiert bereits: {1}{2}",
+                        new Object[] { Notation.YELLOW, saveDir.toAbsolutePath(), Notation.RESET });
+            }
+            if( !Files.exists(saveDir.resolve("save.json"))) {
+                Notation.LOGGER.log(Level.INFO, "{0}Erstelle Standard-Spielstand: {1}{2}",
+                        new Object[] { Notation.GREEN, saveDir.resolve("save.json").toAbsolutePath(), Notation.RESET });
+                Files.createFile(saveDir.resolve("save.json"));
+            } else {
+                Notation.LOGGER.log(Level.INFO, "{0}Spielstand existiert bereits: {1}{2}",
+                        new Object[] { Notation.YELLOW, saveDir.resolve("save.json").toAbsolutePath(), Notation.RESET });
+            }
             GUI gui = new GUI();
             gui.createStartFrame(guiType);
 

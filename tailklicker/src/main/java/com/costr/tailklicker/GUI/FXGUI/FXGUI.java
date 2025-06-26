@@ -10,13 +10,15 @@ import com.costr.tailklicker.Logik.SchwierigkeitenListener;
 import com.costr.tailklicker.TailklickerApplication;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.CustomMenuItem;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -31,7 +33,6 @@ public class FXGUI implements Notation {
 
     protected static Stage mainStage;
     private Scene startScene;
-    private ComboBox<Schwierigkeit> schwierigkeitenMenu;
     private GridPane gridPane;
 
     // 🔧 hinzugefügt: View-Array wie in SwingGUI
@@ -188,23 +189,30 @@ public class FXGUI implements Notation {
             System.exit(0);
         });
 
-        schwierigkeitenMenu = new ComboBox<>();
-        schwierigkeitenMenu.getItems().addAll(Schwierigkeit.values());
-        schwierigkeitenMenu.setValue(TailklickerApplication.getPlayer().getLevel());
-        schwierigkeitenMenu.setOnAction(e -> {
-            new SchwierigkeitenListener().actionPerformed(schwierigkeitenMenu.getValue());
+
+        gameMenu.getItems().add(new MenuItem(Schwierigkeit.LEICHT.asString()));
+        gameMenu.getItems().add(new MenuItem(Schwierigkeit.MITTEL.asString()));
+        gameMenu.getItems().add(new MenuItem(Schwierigkeit.SCHWER.asString()));
+        gameMenu.getItems().add(new MenuItem(Schwierigkeit.EXTREM.asString()));
+        gameMenu.getItems().add(new MenuItem(Schwierigkeit.CUSTOM.asString()));
+        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e) {
+                if ((((MenuItem) e.getSource()).getText()).equalsIgnoreCase(Schwierigkeit.CUSTOM.asString())) {
+                    createCustomGame();
+                } else {
+                    Schwierigkeit selectedDifficulty = Schwierigkeit.fromString(((MenuItem) e.getSource()).getText());
+
+                    new SchwierigkeitenListener().actionPerformed(selectedDifficulty);
+
+                }
+
+            };
+        };
+
+        gameMenu.getItems().forEach(item -> {
+            item.setOnAction(event);
         });
 
-        CustomMenuItem comboMenuItem = new CustomMenuItem(schwierigkeitenMenu);
-        comboMenuItem.setHideOnClick(false);
-
-        gameMenu.getItems().add(new CustomMenuItem(new Button("Custom"), false));
-        gameMenu.getItems().get(0).setOnAction(e -> {
-            LOGGER.log(Level.INFO, "{0}Custom game option selected.{1}", new Object[] { GREEN, RESET });
-            createCustomGame();
-        });
-
-        gameMenu.getItems().add(comboMenuItem);
         menuBar.getMenus().add(gameMenu);
         menuBar.getMenus().add(settingsMenu);
         root.setTop(menuBar);
