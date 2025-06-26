@@ -27,9 +27,9 @@ public class KachelListener implements KlickZähler, Notation {
         if (Check.checkWinCondition(kachelGroup)) {
             LOGGER.log(Level.INFO, "{0}Gewonnen!{1}", new Object[] { GREEN, RESET });
             WinningFX.createWinningMessage();
-            if (Check.checkIfPlayerNeedsOverride(TailklickerApplication.getPlayerList())) {
+            if (Check.checkIfPlayerNeedsOverride(TailklickerApplication.getCurrentLevelList())) {
                 LOGGER.log(Level.INFO, "{0}Highscore updated!{1}", new Object[] { YELLOW, RESET });
-                Set<Player> playerList = TailklickerApplication.getPlayerList();
+                Set<Player> playerList = TailklickerApplication.getCurrentLevelList();
                 Player currentPlayer = TailklickerApplication.getPlayer();
                 if (playerList.contains(currentPlayer)) {
                     playerList.remove(currentPlayer);
@@ -37,6 +37,7 @@ public class KachelListener implements KlickZähler, Notation {
                     TailklickerApplication.dateiVerwalter.write(playerList);
                 }
             } else {
+                TailklickerApplication.addPlayerToList(TailklickerApplication.getPlayer());
                 LOGGER.log(Level.INFO, "{0}Highscore not updated.{1}", new Object[] { YELLOW, RESET });
             }
         } else {

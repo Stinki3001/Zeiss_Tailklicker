@@ -1,6 +1,6 @@
 package com.costr.tailklicker.Logik;
 
-import java.util.Set;
+import java.util.LinkedHashSet;
 import java.util.logging.Level;
 
 import com.costr.tailklicker.GUI.Notation;
@@ -19,7 +19,7 @@ public class Check implements Notation{
         return true;
     }
 
-    public static boolean checkIfPlayerNeedsOverride(Set<Player> playerList) {
+    public static boolean checkIfPlayerNeedsOverride(LinkedHashSet<Player> playerList) {
 
         Player currentPlayer = TailklickerApplication.getPlayer();
         outer: for (Player oldPlayer : playerList) {

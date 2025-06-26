@@ -1,1 +1,39 @@
-{"highscores":[{"name":"Fietje","level":"SCHWER","count":124},{"name":"Fietje","level":"MITTEL","count":11},{"name":"Fietje","level":"LEICHT","count":4}]}
+{
+    "LEICHT": [
+        {
+            "name": "Fietje",
+            "level": "LEICHT",
+            "count": 4
+        }
+    ],
+    "MITTEL": [
+        {
+            "name": "Fietje",
+            "level": "MITTEL",
+            "count": 11
+        }
+    ],
+    "SCHWER": [
+        {
+            "name": "Fietje",
+            "level": "SCHWER",
+            "count": 124
+        }
+    ],
+    "EXTREM": [
+        {
+            "name": "Fietje",
+            "level": "EXTREM",
+            "count": 400
+        }
+    ],
+    "CUSTOM": [
+        {
+            "name": "Fietje",
+            "level": "CUSTOM",
+            "count": 10,
+            "rows": 2,
+            "cols": 10
+        }
+    ]
+}

@@ -3,7 +3,8 @@ package com.costr.tailklicker;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Set;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.logging.Level;
 
 import org.springframework.boot.CommandLineRunner;
@@ -35,7 +36,7 @@ public class TailklickerApplication extends Application {
     private static int cols = 3;
 
     public static final JSONDatei dateiVerwalter = new JSONDatei();
-    private static Set<Player> playerList = dateiVerwalter.loadJSONFile();
+    private static Map<Schwierigkeit, LinkedHashSet<Player>> playerList = JSONDatei.loadJSONFile();
     private static Player player = new Player("default", Schwierigkeit.LEICHT, 0);
     private static GUI.Type guiType = GUI.Type.FX;
     private static Stage primaryStageInstance = new Stage();
@@ -112,12 +113,17 @@ public class TailklickerApplication extends Application {
         return player;
     }
 
-    public static Set<Player> getPlayerList() {
+    public static Map<Schwierigkeit, LinkedHashSet<Player>> getPlayerList() {
         return playerList;
     }
 
     public static void addPlayerToList(Player player) {
-        playerList.add(player);
+        Notation.LOGGER.log(Level.INFO, "{0}Füge Spieler {1} zum Highscore hinzu.{2}",
+                new Object[] { Notation.YELLOW, player.getName(), Notation.RESET });
+        playerList.get(player.getLevel()).add(player);
+   /*      LinkedHashSet<Player> linkedList = playerList.get(player.getLevel());
+        linkedList.add(player);
+        playerList.put(player.getLevel(), linkedList);*/
     }
 
     public static Schwierigkeit getSelectedDifficulty() {
@@ -132,4 +138,7 @@ public class TailklickerApplication extends Application {
         TailklickerApplication.player = player;
     }
 
+    public static LinkedHashSet<Player> getCurrentLevelList(){
+        return playerList.get(player.getLevel());
+    }
 }

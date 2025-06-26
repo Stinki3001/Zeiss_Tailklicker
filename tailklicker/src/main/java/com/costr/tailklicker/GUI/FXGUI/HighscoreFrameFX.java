@@ -1,8 +1,11 @@
 package com.costr.tailklicker.GUI.FXGUI;
 
-import java.util.Set;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.stream.Collectors;
 
 import com.costr.tailklicker.Logik.Player;
+import com.costr.tailklicker.TailklickerApplication;
 
 import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
@@ -16,6 +19,7 @@ import javafx.stage.Stage;
  * @author Costr
  */
 public class HighscoreFrameFX {
+
     private Stage highscoreStage;
     private Scene highscoreScene;
 
@@ -31,18 +35,23 @@ public class HighscoreFrameFX {
     // write(RESET);
     // }
 
-    void dispalyHighscore(Set<Player> playerList) {
-        TextArea highscoreTextField = new TextArea();
-        highscoreTextField.setEditable(false);
-
+    void dispalyHighscore() {
         StringBuilder highscores = new StringBuilder();
-        highscores.append("Name\tLevel\tCount\n");
-        for (Player player : playerList) {
+        TextArea highscoreTextField = new TextArea();
+        TailklickerApplication.getPlayerList().forEach((schwierigkeit, spielerSet) -> {
+            LinkedHashSet<Player> sortedsSpielerSet = spielerSet.stream()
+                    .sorted(Comparator.comparingInt(Player::getCount))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+            highscoreTextField.setEditable(false);
 
-            highscores.append(player.getName()).append("\t")
-                    .append(player.getCount()).append("\t")
-                    .append(player.getLevel().asString()).append("\n");
-        }
+            highscores.append("Name\tLevel\tCount\n");
+            for (Player player : sortedsSpielerSet) {
+
+                highscores.append(player.getName()).append("\t")
+                        .append(player.getCount()).append("\t")
+                        .append(player.getLevel().asString()).append("\n");
+            }
+        });
         highscoreTextField.setText(highscores.toString());
 
         VBox layout = new VBox(highscoreTextField);
@@ -50,5 +59,6 @@ public class HighscoreFrameFX {
 
         highscoreStage.setScene(highscoreScene);
         highscoreStage.show();
+
     }
 }

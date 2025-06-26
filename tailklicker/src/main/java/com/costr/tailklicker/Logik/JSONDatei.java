@@ -8,7 +8,10 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -85,10 +88,9 @@ public class JSONDatei implements Notation {
     /**
      * Lädt den Inhalt der JSONDatei.
      */
-    public static Set<Player> loadJSONFile() {
-        System.out.println("" + file.getAbsolutePath());
-        System.out.println(SAVE_DIR.toAbsolutePath());
-        LOGGER.log(Level.INFO, "{0}Lade den Inhalt der JSONDatei: {1}{2}", new Object[] { BLAU, file.getName(), RESET });
+    public static Map<Schwierigkeit, LinkedHashSet<Player>> loadJSONFile() {
+        LOGGER.log(Level.INFO, "{0}Lade den Inhalt der JSONDatei: {1}{2}",
+                new Object[] { BLAU, file.getName(), RESET });
         if (!file.exists()) {
             LOGGER.log(Level.WARNING, "{0}Die JSONDatei {1} existiert nicht.{2}",
                     new Object[] { RED, file.getName(), RESET });
@@ -98,8 +100,7 @@ public class JSONDatei implements Notation {
                     new Object[] { RED, file.getName(), RESET });
             return null;
         } else {
-
-            Set<Player> playerList = new HashSet<>();
+            Map<Schwierigkeit, LinkedHashSet<Player>> gruppen = new EnumMap<>(Schwierigkeit.class);
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 
                 LOGGER.log(Level.INFO, "{0}1Lese den Inhalt der JSONDatei: {1}{2}",
@@ -116,12 +117,29 @@ public class JSONDatei implements Notation {
                 JsonObject jsonObject = jsonReader.readObject();
                 jsonReader.close();
 
-                jsonObject.getJsonArray("highscores").forEach(jsonValue -> {
-                    playerList.add(new Player(
-                            jsonValue.asJsonObject().getString("name"),
-                            Schwierigkeit.valueOf(jsonValue.asJsonObject().getString("level")),
-                            jsonValue.asJsonObject().getInt("count")));
-                });
+                for (Schwierigkeit currentLevel : Schwierigkeit.values()) {
+                    Set<Player> sortedPlayerList = new HashSet<>();
+
+                    if (currentLevel == Schwierigkeit.CUSTOM) {
+                        jsonObject.getJsonArray(currentLevel.asString()).forEach(jsonValue -> {
+                            sortedPlayerList.add(new Player(
+                                    jsonValue.asJsonObject().getString("name"),
+                                    Schwierigkeit.valueOf(jsonValue.asJsonObject().getString("level")),
+                                    jsonValue.asJsonObject().getInt("count"),
+                                    jsonValue.asJsonObject().getInt("rows"),
+                                    jsonValue.asJsonObject().getInt("cols")));
+                        });
+                    }
+
+                    jsonObject.getJsonArray(currentLevel.asString()).forEach(jsonValue -> {
+                        sortedPlayerList.add(new Player(
+                                jsonValue.asJsonObject().getString("name"),
+                                Schwierigkeit.valueOf(jsonValue.asJsonObject().getString("level")),
+                                jsonValue.asJsonObject().getInt("count")));
+                    });
+
+                    gruppen.put(currentLevel, new LinkedHashSet<>(sortedPlayerList));
+                }
 
                 LOGGER.log(Level.INFO, "{0}Inhalt der JSONDatei {1} erfolgreich geladen.{2}",
                         new Object[] { BLAU, file.getName(), RESET });
@@ -131,7 +149,7 @@ public class JSONDatei implements Notation {
                         new Object[] { RED, e, RESET });
             }
 
-            return playerList;
+            return gruppen;
         }
     }
 
@@ -150,7 +168,7 @@ public class JSONDatei implements Notation {
                     .add("name", currentplayer.getName())
                     .add("level", currentplayer.getLevel().asString().toUpperCase())
                     .add("count", currentplayer.getCount()).build());
-            
+
         }
 
         JsonObject root = Json.createObjectBuilder()
@@ -165,7 +183,7 @@ public class JSONDatei implements Notation {
                     new Object[] { BLAU, file.getName(), RESET });
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "{0}Fehler beim Schreiben der JSONDatei: {1}{2}",
-                    new Object[] { RED,this.getDateiname() ,RESET});
+                    new Object[] { RED, this.getDateiname(), RESET });
             e.printStackTrace();
         }
     }

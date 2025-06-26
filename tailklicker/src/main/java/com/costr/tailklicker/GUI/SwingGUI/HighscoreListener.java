@@ -2,11 +2,13 @@ package com.costr.tailklicker.GUI.SwingGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.logging.Level;
 
 import com.costr.tailklicker.GUI.Notation;
 import com.costr.tailklicker.Logik.Player;
+import com.costr.tailklicker.Logik.Schwierigkeit;
 import com.costr.tailklicker.TailklickerApplication;
 
 /**
@@ -21,7 +23,7 @@ public class HighscoreListener implements ActionListener, Notation {
     @Override
     public void actionPerformed(ActionEvent e) {
         highscoreFrame = new HighscoreFrame();
-        Set<Player> playerList = TailklickerApplication.getPlayerList();
+        Map<Schwierigkeit, LinkedHashSet<Player>> playerList = TailklickerApplication.getPlayerList();
         Player currentPlayer = TailklickerApplication.getPlayer();
 
         LOGGER.log(Level.INFO, "{0}HighscoreListener: {1} Spieler im Highscore{2}",

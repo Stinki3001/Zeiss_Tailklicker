@@ -13,11 +13,21 @@ public class Player implements Notation {
     private String name;
     private Schwierigkeit level = Schwierigkeit.LEICHT; // Default level
     private int count;
+    private int cRows;
+    private int cCols;
 
     public Player(String name, Schwierigkeit level, int count) {
         this.name = name;
         this.level = level;
         this.count = count;
+    }
+
+    public Player(String name, Schwierigkeit level, int count, int cRows, int cCols) {
+        this.name = name;
+        this.level = level;
+        this.count = count;
+        this.cRows = cRows;
+        this.cCols = cCols;
     }
 
     @Override
@@ -66,5 +76,21 @@ public class Player implements Notation {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public int getcRows() {
+        return cRows;
+    }
+
+    public void setcRows(int cRows) {
+        this.cRows = cRows;
+    }
+
+    public int getcCols() {
+        return cCols;
+    }
+
+    public void setcCols(int cCols) {
+        this.cCols = cCols;
     }
 }
